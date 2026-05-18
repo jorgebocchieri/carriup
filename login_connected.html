@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carriup — Inicia Sesión</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { width: 100%; max-width: 420px; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); overflow: hidden; animation: slideUp 0.5s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .card-header { background: linear-gradient(135deg, #FF6600 0%, #ff8c42 100%); padding: 40px 30px; text-align: center; color: white; }
+        .logo { font-size: 48px; margin-bottom: 15px; }
+        .card-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .card-header p { font-size: 14px; opacity: 0.9; }
+        .card-body { padding: 40px 30px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; text-transform: uppercase; }
+        input { width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s ease; }
+        input:focus { outline: none; border-color: #FF6600; box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1); }
+        .error-message { color: #e74c3c; font-size: 13px; margin-top: 6px; display: none; }
+        .error-message.show { display: block; }
+        .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #FF6600 0%, #ff8c42 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; margin-top: 10px; }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 102, 0, 0.4); }
+        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-weight: 600; cursor: pointer; text-transform: uppercase; font-size: 13px; transition: all 0.3s ease; }
+        .tab-btn.active { color: #FF6600; border-bottom: 3px solid #FF6600; }
+        .tab-btn:not(.active) { color: #999; border-bottom: 3px solid transparent; }
+        .success-message { background: #d4edda; color: #155724; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; display: none; border-left: 4px solid #28a745; }
+        .success-message.show { display: block; }
+        .server-info { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 12px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="logo">🛒</div>
+                <h1>Carriup</h1>
+                <p>Optimiza tus compras con IA</p>
+            </div>
+            <div class="card-body">
+                <div class="server-info">
+                    ⚙️ API en http://localhost:3001
+                </div>
+
+                <div class="success-message" id="successMessage"></div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #e0e0e0;">
+                    <button type="button" class="tab-btn active" data-tab="login" onclick="switchTab('login')">Inicia Sesión</button>
+                    <button type="button" class="tab-btn" data-tab="signup" onclick="switchTab('signup')">Registrarse</button>
+                </div>
+
+                <form id="loginForm">
+                    <!-- Login Tab -->
+                    <div id="loginTab" class="tab-content">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="loginEmail" placeholder="tu@email.com" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" id="loginPassword" placeholder="••••••••" required>
+                            <div class="error-message" id="passwordError"></div>
+                        </div>
+                        <p style="font-size: 12px; color: #666; margin-bottom: 15px;">💡 Prueba: test@example.com / test123456</p>
+                        <button type="button" class="btn-login" id="loginBtn" onclick="handleLogin()">Inicia Sesión</button>
+                    </div>
+
+                    <!-- Signup Tab -->
+                    <div id="signupTab" class="tab-content" style="display: none;">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" id="signupName" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="signupEmail" placeholder="tu@email.com" required>
+                            <div class="error-message" id="signupEmailError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" id="signupPassword" placeholder="Mín. 8 caracteres" required>
+                        </div>
+                        <button type="button" class="btn-login" id="signupBtn" onclick="handleSignup()">Crear Cuenta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001';
+
+        function switchTab(tab) {
+            document.getElementById('loginTab').style.display = tab === 'login' ? 'block' : 'none';
+            document.getElementById('signupTab').style.display = tab === 'signup' ? 'block' : 'none';
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tab);
+                btn.style.color = btn.dataset.tab === tab ? '#FF6600' : '#999';
+            });
+        }
+
+        function showSuccess(message) {
+            const el = document.getElementById('successMessage');
+            el.textContent = message;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 3000);
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            document.getElementById('emailError').textContent = '';
+            document.getElementById('passwordError').textContent = '';
+
+            if (!email || !validateEmail(email)) {
+                document.getElementById('emailError').textContent = 'Email inválido';
+                return;
+            }
+            if (!password) {
+                document.getElementById('passwordError').textContent = 'Contraseña requerida';
+                return;
+            }
+
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Iniciando...';
+
+            try {
+                const response = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    showSuccess(`✅ Bienvenido ${data.user.name}!`);
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                } else {
+                    document.getElementById('passwordError').textContent = data.error || 'Error al iniciar sesión';
+                }
+            } catch (error) {
+                document.getElementById('passwordError').textContent = 'No se pudo conectar con el servidor. Asegúrate de ejecutar: node server.js';
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Inicia Sesión';
+            }
+        }
+
+        async function handleSignup() {
+            const fullName = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            document.getElementById('signupEmailError').textContent = '';
+
+            if (!fullName || !email || !password) {
+                alert('Completa todos los campos');
+                return;
+            }
+            if (!validateEmail(email)) {
+                document.getElementById('signupEmailError').textContent = 'Email inválido';
+                return;
+            }
+            if (password.length < 8) {
+                alert('Contraseña debe tener mín 8 caracteres');
+                return;
+            }
+
+            const signupBtn = document.getElementById('signupBtn');
+            signupBtn.disabled = true;
+            signupBtn.textContent = 'Creando...';
+
+            try {
+                const response = await fetch(`${API_URL}/api/auth/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess(`✅ ${data.message}`);
+                    document.getElementById('signupName').value = '';
+                    document.getElementById('signupEmail').value = '';
+                    document.getElementById('signupPassword').value = '';
+                    setTimeout(() => switchTab('login'), 1500);
+                } else {
+                    document.getElementById('signupEmailError').textContent = data.error || 'Error al crear cuenta';
+                }
+            } catch (error) {
+                document.getElementById('signupEmailError').textContent = 'No se pudo conectar con el servidor';
+            } finally {
+                signupBtn.disabled = false;
+                signupBtn.textContent = 'Crear Cuenta';
+            }
+        }
+    </script>
+</body>
+</html>

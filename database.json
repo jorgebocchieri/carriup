@@ -1,0 +1,1061 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "test@example.com",
+      "password": "test123456",
+      "name": "Test User"
+    }
+  ],
+  "products": [
+    {
+      "id": "leche",
+      "name": "Leche",
+      "category": "Lácteos"
+    },
+    {
+      "id": "pan_integral",
+      "name": "Pan Integral",
+      "category": "Panadería"
+    },
+    {
+      "id": "huevos",
+      "name": "Huevos",
+      "category": "Proteínas"
+    },
+    {
+      "id": "arroz",
+      "name": "Arroz",
+      "category": "Granos"
+    },
+    {
+      "id": "aceite",
+      "name": "Aceite",
+      "category": "Condimentos"
+    },
+    {
+      "id": "cafe",
+      "name": "Café",
+      "category": "Bebidas"
+    },
+    {
+      "id": "azucar",
+      "name": "Azúcar",
+      "category": "Condimentos"
+    },
+    {
+      "id": "harina",
+      "name": "Harina",
+      "category": "Granos"
+    },
+    {
+      "id": "queso",
+      "name": "Queso",
+      "category": "Lácteos"
+    },
+    {
+      "id": "yogur",
+      "name": "Yogur",
+      "category": "Lácteos"
+    },
+    {
+      "id": "mantequilla",
+      "name": "Mantequilla",
+      "category": "Lácteos"
+    },
+    {
+      "id": "jambon",
+      "name": "Jamón",
+      "category": "Proteínas"
+    },
+    {
+      "id": "pollo",
+      "name": "Pechuga de Pollo",
+      "category": "Proteínas"
+    },
+    {
+      "id": "carne",
+      "name": "Carne Molida",
+      "category": "Proteínas"
+    },
+    {
+      "id": "salmon",
+      "name": "Salmón",
+      "category": "Proteínas"
+    },
+    {
+      "id": "papas",
+      "name": "Papas",
+      "category": "Verduras"
+    },
+    {
+      "id": "zanahorias",
+      "name": "Zanahorias",
+      "category": "Verduras"
+    },
+    {
+      "id": "tomates",
+      "name": "Tomates",
+      "category": "Verduras"
+    },
+    {
+      "id": "lechuga",
+      "name": "Lechuga",
+      "category": "Verduras"
+    },
+    {
+      "id": "cebolla",
+      "name": "Cebolla",
+      "category": "Verduras"
+    },
+    {
+      "id": "manzanas",
+      "name": "Manzanas",
+      "category": "Frutas"
+    },
+    {
+      "id": "platanos",
+      "name": "Plátanos",
+      "category": "Frutas"
+    },
+    {
+      "id": "naranjas",
+      "name": "Naranjas",
+      "category": "Frutas"
+    },
+    {
+      "id": "fresas",
+      "name": "Fresas",
+      "category": "Frutas"
+    },
+    {
+      "id": "uvas",
+      "name": "Uvas",
+      "category": "Frutas"
+    }
+  ],
+  "prices": {
+    "leche": [
+      {
+        "supermarket": "lider",
+        "price": 1290,
+        "brand": "Colun",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 1320,
+        "brand": "Surlat",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1250,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1350,
+        "brand": "Colun Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "pan_integral": [
+      {
+        "supermarket": "lider",
+        "price": 2490,
+        "brand": "Bimbo",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 2290,
+        "brand": "Artesanal",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1990,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 2650,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "huevos": [
+      {
+        "supermarket": "lider",
+        "price": 3990,
+        "brand": "Orgánicos",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 3490,
+        "brand": "Granja",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 2990,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 4290,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "arroz": [
+      {
+        "supermarket": "lider",
+        "price": 1590,
+        "brand": "Maravilla",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 1490,
+        "brand": "Continente",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1290,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1790,
+        "brand": "Gourmet",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "aceite": [
+      {
+        "supermarket": "lider",
+        "price": 4290,
+        "brand": "Oliva Extra",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 4090,
+        "brand": "Girasol",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 3490,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 4890,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "cafe": [
+      {
+        "supermarket": "lider",
+        "price": 3990,
+        "brand": "Nescafé",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 4290,
+        "brand": "Illy",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 2990,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 4590,
+        "brand": "Lavazza",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "azucar": [
+      {
+        "supermarket": "lider",
+        "price": 890,
+        "brand": "Iansa",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 920,
+        "brand": "Iansa Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 799,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 950,
+        "brand": "Iansa Orgánica",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "harina": [
+      {
+        "supermarket": "lider",
+        "price": 1290,
+        "brand": "Selecta",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 1390,
+        "brand": "Purísima",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1090,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1450,
+        "brand": "Selecta Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "queso": [
+      {
+        "supermarket": "lider",
+        "price": 3990,
+        "brand": "Colun",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 4290,
+        "brand": "Loncoleche",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 3490,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 4590,
+        "brand": "Colun Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "yogur": [
+      {
+        "supermarket": "lider",
+        "price": 1990,
+        "brand": "Colun",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 2190,
+        "brand": "Yoplait",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1690,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 2290,
+        "brand": "Activia",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "mantequilla": [
+      {
+        "supermarket": "lider",
+        "price": 2490,
+        "brand": "Colun",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 2690,
+        "brand": "Loncoleche",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 2190,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 2890,
+        "brand": "Colun Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "jambon": [
+      {
+        "supermarket": "lider",
+        "price": 2890,
+        "brand": "Cicatriz",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 3190,
+        "brand": "España",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 2490,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 3490,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "pollo": [
+      {
+        "supermarket": "lider",
+        "price": 4990,
+        "brand": "Crianza Feliz",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 5290,
+        "brand": "Patagonia",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 4490,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 5690,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "carne": [
+      {
+        "supermarket": "lider",
+        "price": 6990,
+        "brand": "Angus",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 7290,
+        "brand": "Wagyu",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 5990,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 7690,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "salmon": [
+      {
+        "supermarket": "lider",
+        "price": 8990,
+        "brand": "Norwegian",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 9490,
+        "brand": "Frío Austral",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 7990,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 10290,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "papas": [
+      {
+        "supermarket": "lider",
+        "price": 1290,
+        "brand": "Valdivia",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 1390,
+        "brand": "Maule",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 990,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1490,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "zanahorias": [
+      {
+        "supermarket": "lider",
+        "price": 890,
+        "brand": "Valle Central",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 990,
+        "brand": "Maule",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 690,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1090,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "tomates": [
+      {
+        "supermarket": "lider",
+        "price": 1590,
+        "brand": "Valle Central",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 1790,
+        "brand": "Organicópolis",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1290,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1990,
+        "brand": "Premium Orgánico",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "lechuga": [
+      {
+        "supermarket": "lider",
+        "price": 1290,
+        "brand": "Valle Central",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 1490,
+        "brand": "Hidropónica",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 990,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1690,
+        "brand": "Premium Orgánica",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "cebolla": [
+      {
+        "supermarket": "lider",
+        "price": 690,
+        "brand": "Valle Central",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 790,
+        "brand": "Acopiadora",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 490,
+        "brand": "Marca Blanca",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 890,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "manzanas": [
+      {
+        "supermarket": "lider",
+        "price": 1890,
+        "brand": "Fuji",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 2090,
+        "brand": "Gala Importada",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1490,
+        "brand": "Granny Smith",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 2290,
+        "brand": "Pink Lady Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "platanos": [
+      {
+        "supermarket": "lider",
+        "price": 890,
+        "brand": "Ecuador",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 1090,
+        "brand": "Cavendish",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 690,
+        "brand": "Local",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1190,
+        "brand": "Premium Importado",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "naranjas": [
+      {
+        "supermarket": "lider",
+        "price": 1490,
+        "brand": "Valencia",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 1690,
+        "brand": "Navel Importada",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1190,
+        "brand": "Local",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 1890,
+        "brand": "Premium",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "fresas": [
+      {
+        "supermarket": "lider",
+        "price": 2490,
+        "brand": "Orgánicas",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 2790,
+        "brand": "Importadas",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 1990,
+        "brand": "Local",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 3090,
+        "brand": "Premium Orgánicas",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ],
+    "uvas": [
+      {
+        "supermarket": "lider",
+        "price": 3490,
+        "brand": "Italia",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "jumbo",
+        "price": 3790,
+        "brand": "Negra Importada",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "santa-isabel",
+        "price": 2990,
+        "brand": "Local",
+        "date": "2026-05-18T01:26:26.230Z"
+      },
+      {
+        "supermarket": "unimarc",
+        "price": 4190,
+        "brand": "Premium Importadas",
+        "date": "2026-05-18T01:26:26.230Z"
+      }
+    ]
+  },
+  "searches": [
+    {
+      "id": "search_1779067586230",
+      "products": [
+        "leche",
+        "cafe",
+        "pollo"
+      ],
+      "results": [
+        {
+          "supermarket": "lider",
+          "items": [
+            {
+              "name": "leche",
+              "price": 1290,
+              "brand": "Colun"
+            },
+            {
+              "name": "cafe",
+              "price": 3990,
+              "brand": "Nescafé"
+            },
+            {
+              "name": "pollo",
+              "price": 4990,
+              "brand": "Crianza Feliz"
+            }
+          ],
+          "total": 10270
+        },
+        {
+          "supermarket": "jumbo",
+          "items": [
+            {
+              "name": "leche",
+              "price": 1320,
+              "brand": "Surlat"
+            },
+            {
+              "name": "cafe",
+              "price": 4290,
+              "brand": "Illy"
+            },
+            {
+              "name": "pollo",
+              "price": 5290,
+              "brand": "Patagonia"
+            }
+          ],
+          "total": 10900
+        },
+        {
+          "supermarket": "santa-isabel",
+          "items": [
+            {
+              "name": "leche",
+              "price": 1250,
+              "brand": "Marca Blanca"
+            },
+            {
+              "name": "cafe",
+              "price": 2990,
+              "brand": "Marca Blanca"
+            },
+            {
+              "name": "pollo",
+              "price": 4490,
+              "brand": "Marca Blanca"
+            }
+          ],
+          "total": 8730
+        },
+        {
+          "supermarket": "unimarc",
+          "items": [
+            {
+              "name": "leche",
+              "price": 1350,
+              "brand": "Colun Premium"
+            },
+            {
+              "name": "cafe",
+              "price": 4590,
+              "brand": "Lavazza"
+            },
+            {
+              "name": "pollo",
+              "price": 5690,
+              "brand": "Premium"
+            }
+          ],
+          "total": 11630
+        }
+      ],
+      "bestSupermarket": "santa-isabel",
+      "savings": 2900,
+      "date": "2026-05-18T01:26:26.230Z"
+    },
+    {
+      "id": "search_1779068549876",
+      "products": [
+        "leche",
+        "cafe",
+        "pollo"
+      ],
+      "results": [
+        {
+          "supermarket": "lider",
+          "items": [
+            {
+              "name": "leche",
+              "price": 1290,
+              "brand": "Colun"
+            },
+            {
+              "name": "cafe",
+              "price": 3990,
+              "brand": "Nescafé"
+            },
+            {
+              "name": "pollo",
+              "price": 4990,
+              "brand": "Crianza Feliz"
+            }
+          ],
+          "total": 10270
+        },
+        {
+          "supermarket": "jumbo",
+          "items": [
+            {
+              "name": "leche",
+              "price": 1320,
+              "brand": "Surlat"
+            },
+            {
+              "name": "cafe",
+              "price": 4290,
+              "brand": "Illy"
+            },
+            {
+              "name": "pollo",
+              "price": 5290,
+              "brand": "Patagonia"
+            }
+          ],
+          "total": 10900
+        },
+        {
+          "supermarket": "santa-isabel",
+          "items": [
+            {
+              "name": "leche",
+              "price": 1250,
+              "brand": "Marca Blanca"
+            },
+            {
+              "name": "cafe",
+              "price": 2990,
+              "brand": "Marca Blanca"
+            },
+            {
+              "name": "pollo",
+              "price": 4490,
+              "brand": "Marca Blanca"
+            }
+          ],
+          "total": 8730
+        },
+        {
+          "supermarket": "unimarc",
+          "items": [
+            {
+              "name": "leche",
+              "price": 1350,
+              "brand": "Colun Premium"
+            },
+            {
+              "name": "cafe",
+              "price": 4590,
+              "brand": "Lavazza"
+            },
+            {
+              "name": "pollo",
+              "price": 5690,
+              "brand": "Premium"
+            }
+          ],
+          "total": 11630
+        }
+      ],
+      "bestSupermarket": "santa-isabel",
+      "savings": 2900,
+      "date": "2026-05-18T01:42:29.876Z"
+    },
+    {
+      "id": "search_1779068773130",
+      "products": [
+        "pollo",
+        "leche"
+      ],
+      "results": [
+        {
+          "supermarket": "lider",
+          "items": [
+            {
+              "name": "pollo",
+              "price": 4990,
+              "brand": "Crianza Feliz"
+            },
+            {
+              "name": "leche",
+              "price": 1290,
+              "brand": "Colun"
+            }
+          ],
+          "total": 6280
+        },
+        {
+          "supermarket": "jumbo",
+          "items": [
+            {
+              "name": "pollo",
+              "price": 5290,
+              "brand": "Patagonia"
+            },
+            {
+              "name": "leche",
+              "price": 1320,
+              "brand": "Surlat"
+            }
+          ],
+          "total": 6610
+        },
+        {
+          "supermarket": "santa-isabel",
+          "items": [
+            {
+              "name": "pollo",
+              "price": 4490,
+              "brand": "Marca Blanca"
+            },
+            {
+              "name": "leche",
+              "price": 1250,
+              "brand": "Marca Blanca"
+            }
+          ],
+          "total": 5740
+        },
+        {
+          "supermarket": "unimarc",
+          "items": [
+            {
+              "name": "pollo",
+              "price": 5690,
+              "brand": "Premium"
+            },
+            {
+              "name": "leche",
+              "price": 1350,
+              "brand": "Colun Premium"
+            }
+          ],
+          "total": 7040
+        }
+      ],
+      "bestSupermarket": "santa-isabel",
+      "savings": 1300,
+      "date": "2026-05-18T01:46:13.130Z"
+    }
+  ]
+}
