@@ -1,9 +1,69 @@
 # Carriup — Optimizador de Compras Inteligente
 
-> **v2.1** — Arquitectura profesional + UI moderna + fotos de productos
+> **v2.1** — Arquitectura profesional + UI moderna + fotos de productos + En Producción
 
-**Estado:** ✅ MVP v2.1 con diseño profesional y fotos integradas  
-**Última actualización:** 18 de mayo, 2026 (Fase Visual Completada)
+**Estado:** ✅ EN PRODUCCIÓN — Frontend Vercel + Backend Railway  
+**Última actualización:** 19 de mayo, 2026 (Deploy Completado)
+
+## 🌐 URLs de Producción
+
+| Servicio | URL |
+|---------|-----|
+| Frontend | https://carriup-jaba.vercel.app |
+| Backend | https://carriup-backend-production.up.railway.app |
+| GitHub | https://github.com/jorgebocchieri/carriup |
+
+## ⚠️ Problemas Conocidos y Soluciones
+
+### 1. node_modules en GitHub (ERROR: archivo >100MB)
+**Problema:** `frontend/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node` supera el límite de GitHub (100MB)  
+**Solución:** Crear `.gitignore` con `node_modules/` ANTES de hacer `git add`  
+**Comando:**
+```bash
+# Si ya hiciste git add, resetea el repo completo:
+rm -rf .git
+git init
+# Crear .gitignore primero, luego git add
+```
+
+### 2. Package.json en raíz del proyecto (ERROR: versiones inválidas)
+**Problema:** Había un `package.json` en la raíz con versiones de dependencias que no existen (ej: `jsonwebtoken@^9.1.2`)  
+**Solución:** Eliminar el `package.json` de la raíz — el backend tiene su propio `package.json` en `backend/`  
+**Comando:** `rm package.json` en la raíz
+
+### 3. Vercel: rootDirectory en vercel.json (ERROR: invalid property)
+**Problema:** `vercel.json` con propiedad `rootDirectory` es inválida  
+**Solución:** El `rootDirectory` se configura solo en el dashboard de Vercel o via CLI, no en `vercel.json`  
+**vercel.json correcto:**
+```json
+{ "framework": "nextjs" }
+```
+
+### 4. Vercel: Root Directory mal configurado
+**Problema:** Vercel detecta la raíz del proyecto e intenta instalar dependencias del `package.json` raíz (que no existe o tiene errores)  
+**Solución:** Usar Vercel CLI desde la carpeta `frontend/` directamente:
+```bash
+cd frontend/
+vercel --prod
+```
+
+### 5. Permisos npm install -g (ERROR: EACCES)
+**Problema:** `npm install -g vercel` falla por permisos en macOS  
+**Solución:** Usar `sudo npm install -g vercel`
+
+### 6. Railway CLI: Unauthorized
+**Problema:** `railway init` falla con "Unauthorized"  
+**Solución:** Ejecutar `railway login` primero (abre navegador para autorizar con GitHub)
+
+### 7. Railway domain desde carpeta incorrecta
+**Problema:** `railway domain` falla con "No linked project found"  
+**Solución:** Ejecutar desde la carpeta `backend/` donde está el proyecto Railway linkeado
+
+### 8. Health check backend muestra error aunque funciona
+**Problema:** `/api/health` retorna `{"success": false}` porque intenta conectar a PostgreSQL (no instalado)  
+**Solución:** Los endpoints de búsqueda y comparación funcionan igual usando mock data en memoria. El health check es solo informativo.
+
+---
 
 ---
 
