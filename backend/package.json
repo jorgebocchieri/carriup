@@ -11,13 +11,14 @@
     "db:seed": "node scripts/seed-db.js"
   },
   "dependencies": {
-    "fastify": "^4.18.0",
+    "@anthropic-ai/sdk": "^0.98.0",
     "@fastify/cors": "^8.3.0",
     "@fastify/helmet": "^11.1.0",
-    "pg": "^8.10.0",
-    "dotenv": "^16.0.3",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
+    "fastify": "^4.18.0",
     "jsonwebtoken": "^9.0.2",
+    "pg": "^8.10.0",
     "zod": "^3.21.0"
   },
   "devDependencies": {

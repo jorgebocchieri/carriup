@@ -78,6 +78,9 @@ export default function ComparePage() {
   const [modalLoading, setModalLoading] = useState(false)
   const [results, setResults] = useState<any>(null)
   const [error, setError] = useState('')
+  const [aiText, setAiText] = useState('')
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiExplanation, setAiExplanation] = useState('')
 
   useEffect(() => {
     fetchProducts('')
@@ -169,6 +172,36 @@ export default function ComparePage() {
     }
   }
 
+  async function generateWithAI() {
+    if (!aiText.trim()) return
+    setAiLoading(true)
+    setAiExplanation('')
+    setError('')
+    try {
+      const response = await axios.post(`${API_URL}/api/ai/generate-list`, { text: aiText })
+      if (response.data.success && response.data.products.length > 0) {
+        const newItems = response.data.products.map((p: Product) => ({
+          id: p.id,
+          name: p.name,
+          quantity: 1,
+        }))
+        const merged = [...cart]
+        newItems.forEach((item: { id: string; name: string; quantity: number }) => {
+          if (!merged.find(c => c.id === item.id)) merged.push(item)
+        })
+        setCart(merged)
+        setAiExplanation(response.data.explanation)
+        setAiText('')
+      } else {
+        setError('No encontré productos para esa descripción')
+      }
+    } catch (err) {
+      setError('Error conectando con la IA')
+    } finally {
+      setAiLoading(false)
+    }
+  }
+
   async function compare() {
     if (cart.length === 0) {
       setError('Agrega productos al carrito')
@@ -230,6 +263,40 @@ export default function ComparePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left: Search & Results */}
           <div className="lg:col-span-2 space-y-6">
+            {/* AI Card */}
+            <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl shadow-lg p-6 animate-slide-in-up">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-white font-bold text-lg">✨ Generar lista con IA</span>
+              </div>
+              <p className="text-indigo-200 text-sm mb-4">
+                Describe lo que necesitas y Claude armará tu lista automáticamente
+              </p>
+              <textarea
+                value={aiText}
+                onChange={e => setAiText(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); generateWithAI() } }}
+                placeholder='Ej: "Desayuno para una semana" o "Ingredientes para hacer pasta"'
+                rows={3}
+                className="w-full px-4 py-3 rounded-xl border-0 focus:outline-none focus:ring-4 focus:ring-white/30 resize-none text-gray-800 placeholder-gray-400 mb-3"
+              />
+              <button
+                onClick={generateWithAI}
+                disabled={aiLoading || !aiText.trim()}
+                className="w-full py-3 bg-white text-indigo-700 font-bold rounded-xl hover:bg-indigo-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {aiLoading ? (
+                  <><span className="animate-spin">⟳</span> Generando...</>
+                ) : (
+                  <>✨ Generar lista</>
+                )}
+              </button>
+              {aiExplanation && (
+                <div className="mt-3 p-3 bg-white/20 rounded-xl text-white text-sm">
+                  💡 {aiExplanation}
+                </div>
+              )}
+            </div>
+
             {/* Search Card */}
             <div className="bg-white rounded-2xl shadow-lg p-6 border border-indigo-100/50 animate-slide-in-up">
               <label className="block mb-3">

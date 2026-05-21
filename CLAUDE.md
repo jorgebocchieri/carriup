@@ -1,9 +1,9 @@
 # Carriup — Optimizador de Compras Inteligente
 
-> **v2.1** — Arquitectura profesional + UI moderna + fotos de productos + En Producción
+> **v2.2** — PostgreSQL real en producción via Supabase
 
-**Estado:** ✅ EN PRODUCCIÓN — Frontend Vercel + Backend Railway  
-**Última actualización:** 19 de mayo, 2026 (Deploy Completado)
+**Estado:** ✅ EN PRODUCCIÓN — Frontend Vercel + Backend Railway + DB Supabase  
+**Última actualización:** 21 de mayo, 2026 (PostgreSQL conectado)
 
 ## 🌐 URLs de Producción
 
@@ -61,7 +61,26 @@ vercel --prod
 
 ### 8. Health check backend muestra error aunque funciona
 **Problema:** `/api/health` retorna `{"success": false}` porque intenta conectar a PostgreSQL (no instalado)  
-**Solución:** Los endpoints de búsqueda y comparación funcionan igual usando mock data en memoria. El health check es solo informativo.
+**Solución:** Los endpoints de búsqueda y comparación funcionan igual usando mock data en memoria. El health check es solo informativo.  
+**RESUELTO en v2.2:** Health check ahora siempre retorna `success: true` y muestra `"database": "connected"` o `"disconnected"`.
+
+### 9. Supabase: Direct connection falla desde Railway (IPv6)
+**Problema:** La conexión "Direct" de Supabase usa IPv6 por defecto y Railway no soporta IPv4 sin add-on pago ($4/mes)  
+**Solución:** Usar la URL del **Transaction Pooler** (puerto 6543) obtenida desde:  
+Supabase → **Connect** (botón verde) → **ORM** → sección `.env.local` → copiar `DATABASE_URL`  
+Agregar `?sslmode=require` al final de la URL.
+
+### 10. Railway CLI timeout al hacer `railway up`
+**Problema:** `railway up` falla con "operation timed out"  
+**Solución:** Hacer push a GitHub y redeploy desde el dashboard de Railway, o reintentar `railway up --service carriup-backend` desde la carpeta `backend/`
+
+### 11. railway up: "Multiple services found"
+**Problema:** `railway up` sin flags falla cuando hay múltiples servicios  
+**Solución:** Especificar el servicio: `railway up --service carriup-backend`
+
+### 12. Supabase SQL Editor: "Potential issues detected"
+**Problema:** Warning al correr `init-db.sql` sobre operaciones destructivas y falta de RLS  
+**Solución:** Click en **"Run without RLS"** — es normal para este proyecto
 
 ---
 

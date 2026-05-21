@@ -6,12 +6,14 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import dotenv from 'dotenv';
+import Anthropic from '@anthropic-ai/sdk';
 
 dotenv.config();
 
 const app = Fastify({ logger: true });
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const pool = new Pool(
   process.env.DATABASE_URL
@@ -302,6 +304,61 @@ app.get('/api/lists', { onRequest: verifyJWT }, async (req, reply) => {
   } catch (err) {
     console.error(err);
     reply.status(500).send({ error: 'Error obteniendo listas' });
+  }
+});
+
+// ==================
+// AI ENDPOINT
+// ==================
+
+app.post('/api/ai/generate-list', async (req, reply) => {
+  try {
+    const { text } = req.body;
+    if (!text) return reply.status(400).send({ error: 'text requerido' });
+
+    const productsResult = await pool.query(
+      'SELECT product_id, name, category FROM products ORDER BY name'
+    );
+    const catalog = productsResult.rows
+      .map(p => `${p.product_id}: ${p.name} (${p.category})`)
+      .join('\n');
+
+    const message = await anthropic.messages.create({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 512,
+      system: `Eres un asistente de compras para supermercados chilenos.
+Tu tarea es seleccionar productos de un catálogo según lo que pide el usuario.
+Responde SOLO con un JSON válido: {"products": ["id1", "id2", ...], "explanation": "texto breve"}
+Usa solo los product_id exactos del catálogo. Máximo 10 productos.`,
+      messages: [
+        {
+          role: 'user',
+          content: `Catálogo disponible:\n${catalog}\n\nEl usuario necesita: "${text}"\n\nSelecciona los productos más relevantes.`,
+        },
+      ],
+    });
+
+    const raw = message.content[0].text.trim();
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('Respuesta inválida de Claude');
+
+    const parsed = JSON.parse(jsonMatch[0]);
+
+    const validIds = productsResult.rows.map(p => p.product_id);
+    const validProducts = (parsed.products || []).filter(id => validIds.includes(id));
+
+    const productDetails = productsResult.rows
+      .filter(p => validProducts.includes(p.product_id))
+      .map(p => ({ id: p.product_id, name: p.name, category: p.category }));
+
+    reply.send({
+      success: true,
+      products: productDetails,
+      explanation: parsed.explanation || '',
+    });
+  } catch (err) {
+    console.error('AI error:', err);
+    reply.status(500).send({ error: 'Error generando lista con IA' });
   }
 });
 
