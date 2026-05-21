@@ -13,104 +13,29 @@ const app = Fastify({ logger: true });
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || 'carriup',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 5000,
+      }
+    : {
+        host: process.env.DB_HOST || 'localhost',
+        port: process.env.DB_PORT || 5432,
+        database: process.env.DB_NAME || 'carriup',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'postgres',
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 2000,
+      }
+);
 
 pool.on('error', (err) => console.error('Pool error:', err));
 
-// ==================
-// IN-MEMORY MOCK DATA
-// ==================
-
-const mockProducts = [
-  { id: 'leche', name: 'Leche', category: 'Lácteos' },
-  { id: 'queso', name: 'Queso', category: 'Lácteos' },
-  { id: 'yogur', name: 'Yogur', category: 'Lácteos' },
-  { id: 'mantequilla', name: 'Mantequilla', category: 'Lácteos' },
-  { id: 'pan_integral', name: 'Pan Integral', category: 'Panadería' },
-  { id: 'huevos', name: 'Huevos', category: 'Proteínas' },
-  { id: 'jambon', name: 'Jamón', category: 'Proteínas' },
-  { id: 'pollo', name: 'Pollo', category: 'Proteínas' },
-  { id: 'carne', name: 'Carne', category: 'Proteínas' },
-  { id: 'salmon', name: 'Salmón', category: 'Proteínas' },
-  { id: 'arroz', name: 'Arroz', category: 'Granos' },
-  { id: 'harina', name: 'Harina', category: 'Granos' },
-  { id: 'aceite', name: 'Aceite', category: 'Condimentos' },
-  { id: 'azucar', name: 'Azúcar', category: 'Condimentos' },
-  { id: 'papas', name: 'Papas', category: 'Verduras' },
-  { id: 'zanahorias', name: 'Zanahorias', category: 'Verduras' },
-  { id: 'tomates', name: 'Tomates', category: 'Verduras' },
-  { id: 'lechuga', name: 'Lechuga', category: 'Verduras' },
-  { id: 'cebolla', name: 'Cebolla', category: 'Verduras' },
-  { id: 'manzanas', name: 'Manzanas', category: 'Frutas' },
-  { id: 'platanos', name: 'Plátanos', category: 'Frutas' },
-  { id: 'naranjas', name: 'Naranjas', category: 'Frutas' },
-  { id: 'fresas', name: 'Fresas', category: 'Frutas' },
-  { id: 'uvas', name: 'Uvas', category: 'Frutas' },
-  { id: 'cafe', name: 'Café', category: 'Bebidas' },
-  { id: 'fideos', name: 'Fideos', category: 'Pasta' },
-];
-
-const mockPrices = [
-  // Leche varieties
-  { product_id: 'leche', brand: 'Colun', variety: 'Entera 1L', price: 1890, supermarket: 'lider' },
-  { product_id: 'leche', brand: 'Colun', variety: 'Descremada 1L', price: 1790, supermarket: 'lider' },
-  { product_id: 'leche', brand: 'Surlat', variety: 'Entera 1L', price: 1650, supermarket: 'jumbo' },
-  { product_id: 'leche', brand: 'Surlat', variety: 'Descremada 1L', price: 1550, supermarket: 'jumbo' },
-  { product_id: 'leche', brand: 'Marca Blanca', variety: 'Entera 1L', price: 1490, supermarket: 'santa-isabel' },
-  { product_id: 'leche', brand: 'Marca Blanca', variety: 'Deslactosada 1L', price: 2190, supermarket: 'santa-isabel' },
-  { product_id: 'leche', brand: 'Colun Premium', variety: 'Entera 1L', price: 2490, supermarket: 'unimarc' },
-  { product_id: 'leche', brand: 'Colun Premium', variety: 'Orgánica 1L', price: 3290, supermarket: 'unimarc' },
-
-  // Fideos varieties
-  { product_id: 'fideos', brand: 'Lucchetti', variety: 'Tallarines', price: 890, supermarket: 'lider' },
-  { product_id: 'fideos', brand: 'Lucchetti', variety: 'Espirales', price: 890, supermarket: 'lider' },
-  { product_id: 'fideos', brand: 'Lucchetti', variety: 'Penne', price: 890, supermarket: 'lider' },
-  { product_id: 'fideos', brand: 'Barilla', variety: 'Tallarines', price: 1290, supermarket: 'jumbo' },
-  { product_id: 'fideos', brand: 'Barilla', variety: 'Espirales', price: 1290, supermarket: 'jumbo' },
-  { product_id: 'fideos', brand: 'Barilla', variety: 'Fusilli', price: 1290, supermarket: 'jumbo' },
-  { product_id: 'fideos', brand: 'Marca Blanca', variety: 'Tallarines', price: 790, supermarket: 'santa-isabel' },
-  { product_id: 'fideos', brand: 'Marca Blanca', variety: 'Penne', price: 790, supermarket: 'santa-isabel' },
-  { product_id: 'fideos', brand: 'Banza', variety: 'Garbanzos Tallarines', price: 2290, supermarket: 'unimarc' },
-
-  // Café varieties
-  { product_id: 'cafe', brand: 'Nescafé', variety: 'Clásico 100g', price: 2890, supermarket: 'lider' },
-  { product_id: 'cafe', brand: 'Nescafé', variety: 'Gold 100g', price: 3490, supermarket: 'lider' },
-  { product_id: 'cafe', brand: 'Lavazza', variety: 'Clásico 250g', price: 4290, supermarket: 'jumbo' },
-  { product_id: 'cafe', brand: 'Lavazza', variety: 'Crema 250g', price: 4490, supermarket: 'jumbo' },
-  { product_id: 'cafe', brand: 'Marcilla', variety: 'Molido 250g', price: 3190, supermarket: 'santa-isabel' },
-  { product_id: 'cafe', brand: 'Marcilla', variety: 'Grano 250g', price: 3390, supermarket: 'santa-isabel' },
-  { product_id: 'cafe', brand: 'illy', variety: 'Clásico 250g', price: 5890, supermarket: 'unimarc' },
-  { product_id: 'cafe', brand: 'illy', variety: 'Intenso 250g', price: 5990, supermarket: 'unimarc' },
-
-  // Pollo varieties
-  { product_id: 'pollo', brand: 'Las Tres Pías', variety: 'Pechuga kg', price: 7990, supermarket: 'lider' },
-  { product_id: 'pollo', brand: 'Las Tres Pías', variety: 'Muslo kg', price: 5990, supermarket: 'lider' },
-  { product_id: 'pollo', brand: 'Agrosuper', variety: 'Pechuga kg', price: 8490, supermarket: 'jumbo' },
-  { product_id: 'pollo', brand: 'Agrosuper', variety: 'Entero kg', price: 6490, supermarket: 'jumbo' },
-  { product_id: 'pollo', brand: 'Local', variety: 'Pechuga kg', price: 7490, supermarket: 'santa-isabel' },
-  { product_id: 'pollo', brand: 'Local', variety: 'Muslo kg', price: 5490, supermarket: 'santa-isabel' },
-  { product_id: 'pollo', brand: 'Premium', variety: 'Pechuga Orgánica kg', price: 11990, supermarket: 'unimarc' },
-  { product_id: 'pollo', brand: 'Premium', variety: 'Muslo Orgánico kg', price: 8990, supermarket: 'unimarc' },
-
-  // Queso varieties
-  { product_id: 'queso', brand: 'Colun', variety: 'Cremoso 350g', price: 3290, supermarket: 'lider' },
-  { product_id: 'queso', brand: 'Colun', variety: 'Azul 200g', price: 4890, supermarket: 'lider' },
-  { product_id: 'queso', brand: 'Surlat', variety: 'Fundido 450g', price: 3590, supermarket: 'jumbo' },
-  { product_id: 'queso', brand: 'Surlat', variety: 'Pradera 400g', price: 4190, supermarket: 'jumbo' },
-  { product_id: 'queso', brand: 'Marca Blanca', variety: 'Dambo 350g', price: 2890, supermarket: 'santa-isabel' },
-  { product_id: 'queso', brand: 'Marca Blanca', variety: 'Laminado 200g', price: 1990, supermarket: 'santa-isabel' },
-  { product_id: 'queso', brand: 'Parmesano', variety: 'Rallado 200g', price: 5990, supermarket: 'unimarc' },
-  { product_id: 'queso', brand: 'Parmesano', variety: 'Bloque 250g', price: 6490, supermarket: 'unimarc' },
-];
 
 // ==================
 // PLUGINS & MIDDLEWARE
@@ -210,12 +135,15 @@ app.get('/api/products/search', async (req, reply) => {
     const { query } = req.query;
     if (!query) return reply.status(400).send({ error: 'query requerido' });
 
-    const lowerQuery = query.toLowerCase();
-    const results = mockProducts.filter(
-      (p) => p.name.toLowerCase().includes(lowerQuery) || p.id.toLowerCase().includes(lowerQuery)
+    const result = await pool.query(
+      `SELECT product_id AS id, name, category
+       FROM products
+       WHERE LOWER(name) LIKE $1 OR product_id LIKE $1
+       LIMIT 10`,
+      [`%${query.toLowerCase()}%`]
     );
 
-    reply.send({ success: true, products: results });
+    reply.send({ success: true, products: result.rows });
   } catch (err) {
     console.error(err);
     reply.status(500).send({ error: 'Error en búsqueda' });
@@ -227,20 +155,27 @@ app.get('/api/products/details', async (req, reply) => {
     const { id } = req.query;
     if (!id) return reply.status(400).send({ error: 'id requerido' });
 
-    const product = mockProducts.find((p) => p.id === id.toLowerCase());
+    const productResult = await pool.query(
+      'SELECT product_id AS id, name, category FROM products WHERE product_id = $1',
+      [id.toLowerCase()]
+    );
 
-    if (!product) {
+    if (productResult.rows.length === 0) {
       return reply.status(404).send({ error: 'Producto no encontrado' });
     }
 
-    const varieties = mockPrices.filter((p) => p.product_id === id.toLowerCase());
-    const brands = [...new Set(varieties.map((v) => v.brand))];
+    const varietiesResult = await pool.query(
+      'SELECT product_id, brand, variety, price, supermarket FROM prices WHERE product_id = $1 ORDER BY price ASC',
+      [id.toLowerCase()]
+    );
+
+    const brands = [...new Set(varietiesResult.rows.map((v) => v.brand))];
 
     reply.send({
       success: true,
-      product,
+      product: productResult.rows[0],
       brands,
-      varieties,
+      varieties: varietiesResult.rows,
     });
   } catch (err) {
     console.error(err);
@@ -258,45 +193,47 @@ app.get('/api/prices/compare', async (req, reply) => {
     if (!products) return reply.status(400).send({ error: 'products requerido' });
 
     const productIds = products.split(',').map((p) => p.trim().toLowerCase());
-
-    const pricesBySuper = {};
     const supermarkets = ['lider', 'jumbo', 'santa-isabel', 'unimarc'];
 
+    // Get cheapest price per product per supermarket in one query
+    const result = await pool.query(
+      `SELECT DISTINCT ON (product_id, supermarket)
+         product_id, supermarket, price, brand, variety
+       FROM prices
+       WHERE product_id = ANY($1)
+       ORDER BY product_id, supermarket, price ASC`,
+      [productIds]
+    );
+
+    const pricesBySuper = {};
     supermarkets.forEach((sm) => {
       pricesBySuper[sm] = { supermarket: sm, items: [], total: 0 };
     });
 
-    // Find prices for each product
-    productIds.forEach((productId) => {
-      const productVarieties = mockPrices.filter((p) => p.product_id === productId);
-
-      supermarkets.forEach((sm) => {
-        // Get cheapest variety for this product in this supermarket
-        const varietiesInSuper = productVarieties.filter((p) => p.supermarket === sm);
-        if (varietiesInSuper.length > 0) {
-          const cheapest = varietiesInSuper.reduce((min, v) => (v.price < min.price ? v : min));
-          pricesBySuper[sm].items.push({
-            name: productId,
-            price: cheapest.price,
-            brand: cheapest.brand,
-            variety: cheapest.variety,
-          });
-          pricesBySuper[sm].total += cheapest.price;
-        }
-      });
+    result.rows.forEach((row) => {
+      if (pricesBySuper[row.supermarket]) {
+        pricesBySuper[row.supermarket].items.push({
+          name: row.product_id,
+          price: row.price,
+          brand: row.brand,
+          variety: row.variety,
+        });
+        pricesBySuper[row.supermarket].total += row.price;
+      }
     });
 
     const results = Object.values(pricesBySuper);
-    const minTotal = Math.min(...results.map((r) => r.total || Infinity));
-    const maxTotal = Math.max(...results.map((r) => r.total || 0));
-    const bestSupermarket = results.find((r) => r.total === minTotal);
+    const withItems = results.filter((r) => r.total > 0);
+    const minTotal = withItems.length ? Math.min(...withItems.map((r) => r.total)) : 0;
+    const maxTotal = withItems.length ? Math.max(...withItems.map((r) => r.total)) : 0;
+    const bestSupermarket = results.find((r) => r.total === minTotal && minTotal > 0);
 
     reply.send({
       success: true,
       products: productIds,
       productsFound: productIds.length,
       results,
-      bestSupermarket: bestSupermarket.supermarket,
+      bestSupermarket: bestSupermarket?.supermarket || null,
       minTotal,
       maxTotal,
       savings: maxTotal - minTotal,
@@ -373,22 +310,20 @@ app.get('/api/lists', { onRequest: verifyJWT }, async (req, reply) => {
 // ==================
 
 app.get('/api/health', async (req, reply) => {
+  let dbStatus = 'disconnected';
   try {
-    const dbResult = await pool.query('SELECT 1');
-    reply.send({
-      success: true,
-      status: 'ok',
-      message: 'Carriup API is running',
-      timestamp: new Date().toISOString(),
-      database: dbResult.rows.length > 0 ? 'connected' : 'error',
-    });
-  } catch (err) {
-    reply.status(500).send({
-      success: false,
-      status: 'error',
-      message: 'Database connection failed',
-    });
+    await pool.query('SELECT 1');
+    dbStatus = 'connected';
+  } catch (_) {
+    dbStatus = 'disconnected';
   }
+  reply.send({
+    success: true,
+    status: 'ok',
+    message: 'Carriup API is running',
+    timestamp: new Date().toISOString(),
+    database: dbStatus,
+  });
 });
 
 // ==================
