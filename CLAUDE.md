@@ -1,9 +1,9 @@
 # Carriup — Optimizador de Compras Inteligente
 
-> **v2.2** — PostgreSQL real en producción via Supabase
+> **v2.3** — PostgreSQL real + IA para generar listas
 
-**Estado:** ✅ EN PRODUCCIÓN — Frontend Vercel + Backend Railway + DB Supabase  
-**Última actualización:** 21 de mayo, 2026 (PostgreSQL conectado)
+**Estado:** ✅ EN PRODUCCIÓN — Frontend Vercel + Backend Railway + DB Supabase + IA  
+**Última actualización:** 21 de mayo, 2026 (Claude API integrado)
 
 ## 🌐 URLs de Producción
 

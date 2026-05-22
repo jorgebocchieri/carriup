@@ -81,6 +81,20 @@ export default function ComparePage() {
   const [aiText, setAiText] = useState('')
   const [aiLoading, setAiLoading] = useState(false)
   const [aiExplanation, setAiExplanation] = useState('')
+  const [deliveryMode, setDeliveryMode] = useState(false)
+
+const DELIVERY = {
+  lider:        { cost: 2990, freeThreshold: 39990 },
+  jumbo:        { cost: 2990, freeThreshold: 49990 },
+  'santa-isabel': { cost: 1990, freeThreshold: 29990 },
+  unimarc:      { cost: 2490, freeThreshold: 39990 },
+} as const
+
+function getDeliveryCost(supermarket: string, subtotal: number): number {
+  const d = DELIVERY[supermarket as keyof typeof DELIVERY]
+  if (!d || !deliveryMode) return 0
+  return subtotal >= d.freeThreshold ? 0 : d.cost
+}
 
   useEffect(() => {
     fetchProducts('')
@@ -356,64 +370,95 @@ export default function ComparePage() {
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 mb-4">📊 Comparación de Precios</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {results.results.map((result: ComparisonResult) => {
-                      const isBest = result.supermarket === results.bestSupermarket
-                      return (
-                        <div
-                          key={result.supermarket}
-                          className={`rounded-2xl p-5 transition-all duration-300 ${
-                            isBest
-                              ? 'bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-500 shadow-lg scale-105'
-                              : 'bg-white border-2 border-gray-100 hover:shadow-lg'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-bold text-lg uppercase text-gray-900">{result.supermarket}</h3>
-                            {isBest && <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">✓ MEJOR</span>}
-                          </div>
+                    {(() => {
+                      const withDelivery = results.results.map((r: ComparisonResult) => ({
+                        ...r,
+                        deliveryCost: getDeliveryCost(r.supermarket, r.total),
+                        finalTotal: r.total + getDeliveryCost(r.supermarket, r.total),
+                      }))
+                      const bestFinal = withDelivery.reduce((best: any, r: any) =>
+                        r.finalTotal > 0 && r.finalTotal < best.finalTotal ? r : best
+                      , withDelivery[0])
 
-                          <div className="space-y-2 mb-4 text-sm">
-                            {result.items.map((item, idx) => (
-                              <div key={idx} className="flex justify-between items-center">
-                                <span className="text-gray-700">{item.name}</span>
-                                <span className="font-semibold text-indigo-600">${item.price.toLocaleString()}</span>
+                      return withDelivery.map((result: any) => {
+                        const isBest = result.supermarket === bestFinal.supermarket
+                        return (
+                          <div
+                            key={result.supermarket}
+                            className={`rounded-2xl p-5 transition-all duration-300 ${
+                              isBest
+                                ? 'bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-500 shadow-lg scale-105'
+                                : 'bg-white border-2 border-gray-100 hover:shadow-lg'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-4">
+                              <h3 className="font-bold text-lg uppercase text-gray-900">{result.supermarket}</h3>
+                              {isBest && <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">✓ MEJOR</span>}
+                            </div>
+
+                            <div className="space-y-2 mb-4 text-sm">
+                              {result.items.map((item: any, idx: number) => (
+                                <div key={idx} className="flex justify-between items-center">
+                                  <span className="text-gray-700">{item.name}</span>
+                                  <span className="font-semibold text-indigo-600">${item.price.toLocaleString()}</span>
+                                </div>
+                              ))}
+                              {deliveryMode && (
+                                <div className="flex justify-between items-center pt-2 border-t border-gray-100">
+                                  <span className="text-gray-500">🚚 Despacho</span>
+                                  <span className={`font-semibold ${result.deliveryCost === 0 ? 'text-green-600' : 'text-orange-500'}`}>
+                                    {result.deliveryCost === 0 ? '¡Gratis!' : `$${result.deliveryCost.toLocaleString()}`}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className={`rounded-xl p-3 text-center ${isBest ? 'bg-white' : 'bg-gray-50'}`}>
+                              <div className="text-xs text-gray-500 uppercase">Total</div>
+                              <div className={`text-2xl font-bold ${isBest ? 'text-green-600' : 'text-indigo-600'}`}>
+                                ${result.finalTotal.toLocaleString()}
                               </div>
-                            ))}
-                          </div>
-
-                          <div className={`rounded-xl p-3 text-center ${isBest ? 'bg-white' : 'bg-gray-50'}`}>
-                            <div className="text-xs text-gray-500 uppercase">Total</div>
-                            <div className={`text-2xl font-bold ${isBest ? 'text-green-600' : 'text-indigo-600'}`}>
-                              ${result.total.toLocaleString()}
                             </div>
                           </div>
-                        </div>
-                      )
-                    })}
+                        )
+                      })
+                    })()}
                   </div>
                 </div>
 
                 {/* Summary Card */}
-                <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-2xl p-6 text-white shadow-xl">
-                  <h3 className="text-lg font-bold mb-4">💰 Resumen de Comparación</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <div className="text-sm opacity-90">Precio Mínimo</div>
-                      <div className="text-2xl font-bold">${results.minTotal.toLocaleString()}</div>
+                {(() => {
+                  const withDelivery = results.results.map((r: ComparisonResult) => ({
+                    ...r,
+                    finalTotal: r.total + getDeliveryCost(r.supermarket, r.total),
+                  }))
+                  const totals = withDelivery.filter((r: any) => r.finalTotal > 0).map((r: any) => r.finalTotal)
+                  const minFinal = Math.min(...totals)
+                  const maxFinal = Math.max(...totals)
+                  const best = withDelivery.find((r: any) => r.finalTotal === minFinal)
+                  return (
+                    <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-2xl p-6 text-white shadow-xl">
+                      <h3 className="text-lg font-bold mb-4">💰 Resumen de Comparación {deliveryMode && '🚚'}</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <div className="text-sm opacity-90">Precio Mínimo</div>
+                          <div className="text-2xl font-bold">${minFinal.toLocaleString()}</div>
+                        </div>
+                        <div>
+                          <div className="text-sm opacity-90">Precio Máximo</div>
+                          <div className="text-2xl font-bold">${maxFinal.toLocaleString()}</div>
+                        </div>
+                        <div className="col-span-2 pt-4 border-t border-white/30">
+                          <div className="text-sm opacity-90 mb-1">Ahorro Potencial</div>
+                          <div className="text-3xl font-bold text-green-300">${(maxFinal - minFinal).toLocaleString()}</div>
+                        </div>
+                      </div>
+                      <div className="mt-4 p-3 bg-white/20 rounded-lg text-sm">
+                        💡 Te recomendamos {deliveryMode ? 'pedir despacho en' : 'comprar en'} <strong>{best?.supermarket.toUpperCase()}</strong>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-sm opacity-90">Precio Máximo</div>
-                      <div className="text-2xl font-bold">${results.maxTotal.toLocaleString()}</div>
-                    </div>
-                    <div className="col-span-2 pt-4 border-t border-white/30">
-                      <div className="text-sm opacity-90 mb-1">Ahorro Potencial</div>
-                      <div className="text-3xl font-bold text-green-300">${results.savings.toLocaleString()}</div>
-                    </div>
-                  </div>
-                  <div className="mt-4 p-3 bg-white/20 rounded-lg text-sm">
-                    💡 Te recomendamos comprar en <strong>{results.bestSupermarket.toUpperCase()}</strong>
-                  </div>
-                </div>
+                  )
+                })()}
               </div>
             )}
           </div>
@@ -456,6 +501,24 @@ export default function ComparePage() {
                         </div>
                       </div>
                     ))}
+                  </div>
+
+                  {/* Delivery toggle */}
+                  <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                    <div>
+                      <div className="text-sm font-semibold text-gray-700">
+                        {deliveryMode ? '🚚 Con despacho' : '🏪 Retiro en tienda'}
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        {deliveryMode ? 'Incluye costo de envío' : 'Sin costo de envío'}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setDeliveryMode(!deliveryMode)}
+                      className={`relative w-12 h-6 rounded-full transition-colors duration-200 ${deliveryMode ? 'bg-indigo-600' : 'bg-gray-300'}`}
+                    >
+                      <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ${deliveryMode ? 'translate-x-7' : 'translate-x-1'}`} />
+                    </button>
                   </div>
 
                   <button
