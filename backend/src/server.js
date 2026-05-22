@@ -319,46 +319,88 @@ app.post('/api/ai/generate-list', async (req, reply) => {
     const productsResult = await pool.query(
       'SELECT product_id, name, category FROM products ORDER BY name'
     );
-    const catalog = productsResult.rows
-      .map(p => `${p.product_id}: ${p.name} (${p.category})`)
-      .join('\n');
 
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 512,
-      system: `Eres un asistente de compras para supermercados chilenos.
+    // Usar Claude si hay API key, sino usar modo demo por palabras clave
+    if (process.env.ANTHROPIC_API_KEY) {
+      const catalog = productsResult.rows
+        .map(p => `${p.product_id}: ${p.name} (${p.category})`)
+        .join('\n');
+
+      const message = await anthropic.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 512,
+        system: `Eres un asistente de compras para supermercados chilenos.
 Tu tarea es seleccionar productos de un catálogo según lo que pide el usuario.
 Responde SOLO con un JSON válido: {"products": ["id1", "id2", ...], "explanation": "texto breve"}
 Usa solo los product_id exactos del catálogo. Máximo 10 productos.`,
-      messages: [
-        {
-          role: 'user',
-          content: `Catálogo disponible:\n${catalog}\n\nEl usuario necesita: "${text}"\n\nSelecciona los productos más relevantes.`,
-        },
-      ],
-    });
+        messages: [
+          {
+            role: 'user',
+            content: `Catálogo disponible:\n${catalog}\n\nEl usuario necesita: "${text}"\n\nSelecciona los productos más relevantes.`,
+          },
+        ],
+      });
 
-    const raw = message.content[0].text.trim();
-    const jsonMatch = raw.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('Respuesta inválida de Claude');
+      const raw = message.content[0].text.trim();
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('Respuesta inválida de Claude');
+      const parsed = JSON.parse(jsonMatch[0]);
+      const validIds = productsResult.rows.map(p => p.product_id);
+      const validProducts = (parsed.products || []).filter(id => validIds.includes(id));
+      const productDetails = productsResult.rows
+        .filter(p => validProducts.includes(p.product_id))
+        .map(p => ({ id: p.product_id, name: p.name, category: p.category }));
 
-    const parsed = JSON.parse(jsonMatch[0]);
+      return reply.send({
+        success: true,
+        products: productDetails,
+        explanation: parsed.explanation || '',
+        mode: 'ai',
+      });
+    }
 
-    const validIds = productsResult.rows.map(p => p.product_id);
-    const validProducts = (parsed.products || []).filter(id => validIds.includes(id));
+    // Modo demo: matching por palabras clave
+    const lower = text.toLowerCase();
+    const keywords = {
+      desayuno: ['leche', 'pan_integral', 'huevos', 'mantequilla', 'cafe', 'yogur'],
+      almuerzo: ['arroz', 'pollo', 'tomates', 'lechuga', 'cebolla', 'aceite'],
+      cena: ['fideos', 'carne', 'tomates', 'cebolla', 'aceite'],
+      vegano: ['arroz', 'fideos', 'tomates', 'lechuga', 'zanahorias', 'manzanas', 'platanos', 'aceite', 'azucar', 'cebolla'],
+      vegetariano: ['huevos', 'queso', 'yogur', 'tomates', 'lechuga', 'zanahorias', 'arroz', 'fideos'],
+      semana: ['leche', 'huevos', 'pan_integral', 'arroz', 'fideos', 'pollo', 'tomates', 'cebolla', 'aceite', 'azucar'],
+      pasta: ['fideos', 'tomates', 'cebolla', 'aceite', 'queso'],
+      ensalada: ['lechuga', 'tomates', 'zanahorias', 'cebolla', 'aceite'],
+      frutas: ['manzanas', 'platanos', 'naranjas', 'fresas', 'uvas'],
+      proteina: ['pollo', 'carne', 'salmon', 'huevos', 'queso'],
+    };
+
+    let matchedIds = new Set();
+    for (const [keyword, ids] of Object.entries(keywords)) {
+      if (lower.includes(keyword)) ids.forEach(id => matchedIds.add(id));
+    }
+
+    // Si no matcheó nada, buscar por palabras individuales
+    if (matchedIds.size === 0) {
+      productsResult.rows.forEach(p => {
+        if (lower.includes(p.name.toLowerCase()) || lower.includes(p.product_id)) {
+          matchedIds.add(p.product_id);
+        }
+      });
+    }
 
     const productDetails = productsResult.rows
-      .filter(p => validProducts.includes(p.product_id))
+      .filter(p => matchedIds.has(p.product_id))
       .map(p => ({ id: p.product_id, name: p.name, category: p.category }));
 
     reply.send({
       success: true,
       products: productDetails,
-      explanation: parsed.explanation || '',
+      explanation: '(Modo demo — agrega ANTHROPIC_API_KEY para IA real)',
+      mode: 'demo',
     });
   } catch (err) {
     console.error('AI error:', err);
-    reply.status(500).send({ error: 'Error generando lista con IA' });
+    reply.status(500).send({ error: 'Error generando lista' });
   }
 });
 
