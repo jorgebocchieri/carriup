@@ -1,0 +1,414 @@
+<title>Muro Sur de Hierbas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F1F3EE;
+  --paper:#FAFBF8;
+  --ink:#1D2821;
+  --muted:#56645B;
+  --line:#D5DCD3;
+  --moss:#2E5A43;
+  --moss-soft:#DCE8DF;
+  --slate:#566877;
+  --slate-soft:#E1E7EC;
+  --sun:#B8860B;
+  --sun-soft:#F5EBCF;
+  --no:#9A3B32;
+  --no-soft:#F3DEDB;
+  --wall:#C9CFC6;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#141A16; --paper:#1B231E; --ink:#E4EAE4; --muted:#A1AFA5; --line:#2F3A33;
+    --moss:#8CC7A4; --moss-soft:#223A2D; --slate:#A9BCCB; --slate-soft:#233039;
+    --sun:#E0B64C; --sun-soft:#3A3120; --no:#E59A90; --no-soft:#3E2522; --wall:#2A332D;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#141A16; --paper:#1B231E; --ink:#E4EAE4; --muted:#A1AFA5; --line:#2F3A33;
+  --moss:#8CC7A4; --moss-soft:#223A2D; --slate:#A9BCCB; --slate-soft:#233039;
+  --sun:#E0B64C; --sun-soft:#3A3120; --no:#E59A90; --no-soft:#3E2522; --wall:#2A332D;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:17px/1.6 var(--body);padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.02;font-weight:700}
+h2{font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1.15;font-weight:700}
+h3{font-size:1.2rem;line-height:1.25;font-weight:700}
+p{margin:0}
+a{color:var(--moss)}
+a:focus-visible{outline:2px solid var(--moss);outline-offset:2px}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+section{padding-block:48px 0;display:grid;gap:20px}
+.lede{max-width:65ch;color:var(--muted);font-size:1.08rem}
+.prose{max-width:65ch;display:grid;gap:12px}
+
+/* Hero */
+header{padding-block:48px 8px;display:grid;gap:18px}
+.facts{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:.82rem;color:var(--muted)}
+.facts b{color:var(--ink);font-weight:500}
+
+/* Verdict chips */
+.verdicts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.verdict{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.verdict h3{font-size:1.1rem}
+.pill{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:99px;justify-self:start}
+.ok{background:var(--moss-soft);color:var(--moss)}
+.mid{background:var(--sun-soft);color:var(--sun)}
+.bad{background:var(--no-soft);color:var(--no)}
+.verdict p{font-size:.95rem;color:var(--muted)}
+
+/* Sun strip */
+.sunstrip{overflow-x:auto}
+.sunstrip table{border-collapse:collapse;min-width:620px;width:100%}
+.sunstrip th,.sunstrip td{padding:8px 4px;text-align:center;font-family:var(--mono);font-size:.78rem;border-bottom:1px solid var(--line)}
+.sunstrip th{color:var(--muted);font-weight:500}
+.s0{background:var(--slate-soft);color:var(--slate)}
+.s1{background:var(--sun-soft);color:var(--sun)}
+.note{font-size:.9rem;color:var(--muted);max-width:70ch}
+
+/* Wall map */
+.wall{background:var(--wall);border-radius:6px;padding:14px;display:grid;grid-template-columns:2fr .9fr 2fr;gap:12px;overflow-x:auto}
+.col{display:grid;gap:10px;grid-template-rows:auto repeat(3,1fr)}
+.col .eyebrow{text-align:center;color:var(--ink);opacity:.75}
+.pilar{background:color-mix(in srgb,var(--wall) 70%,var(--ink) 12%);border-radius:4px;padding:8px 6px}
+.box{display:block;text-decoration:none;color:var(--ink);background:var(--paper);border-radius:4px;padding:10px 10px 12px;border-bottom:6px solid var(--moss);min-height:84px}
+.box:hover{outline:2px solid var(--moss)}
+.box.deco{border-bottom-color:var(--slate)}
+.box.season{border-bottom-color:var(--sun)}
+.box .id{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.box .pl{font-weight:600;font-size:.92rem;line-height:1.25;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.88rem;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:14px;height:6px;margin-right:6px;vertical-align:middle;background:var(--c)}
+@media (max-width:640px){
+  .wall{grid-template-columns:1fr}
+  .col{grid-template-rows:auto}
+}
+
+/* Planter cards */
+.group-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-top:2px solid var(--ink);padding-top:12px}
+.planters{display:grid;gap:16px}
+.planter{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:grid;gap:14px;scroll-margin-top:16px}
+.planter:target{outline:2px solid var(--moss)}
+.ph{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;align-items:baseline}
+.ph .id{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.why{color:var(--muted);max-width:70ch}
+.care{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 20px}
+.care div{display:grid;gap:2px}
+.care dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.care dd{margin:0;font-size:.96rem}
+dl{margin:0}
+
+/* Plant table */
+.tablebox{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+table.t{border-collapse:collapse;width:100%;min-width:760px;font-size:.93rem}
+.t th,.t td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.t thead th{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--ground)}
+.t tbody tr:last-child td{border-bottom:0}
+.t td:first-child{font-weight:600;white-space:nowrap}
+.t .sci{display:block;font-weight:400;font-style:italic;color:var(--muted);font-size:.85rem}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.t tfoot td{font-weight:600;border-top:2px solid var(--ink);border-bottom:0}
+.src{font-family:var(--mono);font-size:.72rem}
+
+/* Calendar */
+.cal{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.season-c{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px;align-content:start}
+.season-c ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:.95rem}
+
+.steps{margin:0;padding-left:22px;display:grid;gap:8px;max-width:70ch}
+.callout{background:var(--slate-soft);border-radius:10px;padding:16px 18px;max-width:75ch;display:grid;gap:8px}
+footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Proyecto hogar · Santiago, RM</span>
+  <h1>Muro Sur de Hierbas</h1>
+  <p class="lede">Nueve jardineras en un muro de 4 × 2 m cuya cara con plantas mira al sur. En Santiago eso significa sombra casi todo el año, así que la selección prioriza hierbas que rinden en semisombra y deja fuera las que necesitan sol pleno.</p>
+  <div class="facts">
+    <span>Muro <b>4 × 2 m</b></span>
+    <span>Segmentos <b>2 + pilar</b></span>
+    <span>Jardineras <b>9</b></span>
+    <span>Exposición <b>sur · semisombra</b></span>
+    <span>Riego <b>manual → goteo</b></span>
+    <span>Presupuesto <b>≤ $150.000</b></span>
+  </div>
+</header>
+
+<section id="lista">
+  <h2>Tu lista de deseos frente a un muro sur</h2>
+  <div class="verdicts">
+    <div class="verdict"><span class="pill ok">Ideal</span><h3>Menta</h3><p>Prefiere la semisombra. En un muro sur crece más tierna y se seca menos en verano.</p></div>
+    <div class="verdict"><span class="pill mid">Con reparos</span><h3>Orégano</h3><p>Sobrevive, pero con menos aroma. Va en la fila de arriba, que recibe más luz.</p></div>
+    <div class="verdict"><span class="pill mid">Solo en temporada</span><h3>Albahaca</h3><p>Necesita calor y sol. Úsala como anual de octubre a marzo en la fila superior y en invierno cambia a violas.</p></div>
+    <div class="verdict"><span class="pill bad">Llévala al sol</span><h3>Romero</h3><p>En sombra se alarga, pierde aceites y se pudre por exceso de humedad. Plántalo en una maceta en el lado norte del patio.</p></div>
+    <div class="verdict"><span class="pill bad">Llévalo al sol</span><h3>Cedrón</h3><p>Es un arbusto de 1,5 a 3 m que pide sol pleno. No cabe en una jardinera de muro. Va en suelo o en una maceta de 40 L o más, al sol.</p></div>
+  </div>
+  <p class="note">Si el pilar sobresale del muro, sus caras laterales miran al oriente y al poniente y reciben 3 a 5 horas de sol. Ese es el único punto del muro donde un romero podría prosperar.</p>
+</section>
+
+<section id="sol">
+  <h2>Cuánto sol recibe realmente</h2>
+  <p class="prose">En el hemisferio sur el sol recorre el cielo por el norte. Una cara que mira al sur solo recibe sol directo cuando el sol sale y se pone al sur del eje oriente-poniente, cosa que ocurre entre el equinoccio de primavera y el de otoño. Valores teóricos sin edificios ni árboles que den sombra:</p>
+  <div class="sunstrip">
+    <table>
+      <thead><tr><th>Ene</th><th>Feb</th><th>Mar</th><th>Abr</th><th>May</th><th>Jun</th><th>Jul</th><th>Ago</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dic</th></tr></thead>
+      <tbody><tr>
+        <td class="s1">~4 h</td><td class="s1">~3 h</td><td class="s1">~1 h</td><td class="s0">0</td><td class="s0">0</td><td class="s0">0</td><td class="s0">0</td><td class="s0">0</td><td class="s0">~0</td><td class="s1">~2 h</td><td class="s1">~3,5 h</td><td class="s1">~4,5 h</td>
+      </tr></tbody>
+    </table>
+  </div>
+  <p class="note">Ese sol llega temprano en la mañana y al final de la tarde, repartido en dos bloques. Para medirlo en tu muro, un día despejado de diciembre anota a qué hora le da y le deja de dar el sol a cada fila. Si la fila superior pasa de 5 horas, la albahaca y el orégano van a rendir bastante mejor.</p>
+</section>
+
+<section id="mapa">
+  <h2>Distribución en el muro</h2>
+  <p class="prose">La fila superior recibe más luz y más viento. La inferior es la más fresca y húmeda. Las mentas van abajo y cada una en su propia jardinera, porque sus estolones invaden todo lo que tienen al lado.</p>
+  <div class="wall" role="img" aria-label="Esquema del muro con 9 jardineras: tres en el segmento izquierdo, tres en el pilar y tres en el segmento derecho">
+    <div class="col">
+      <span class="eyebrow">Segmento A · Cocina</span>
+      <a class="box" href="#A1"><span class="id">A1 · arriba</span><span class="pl">Orégano + Ciboulette</span></a>
+      <a class="box" href="#A2"><span class="id">A2 · medio</span><span class="pl">Perejil liso + Cilantro</span></a>
+      <a class="box" href="#A3"><span class="id">A3 · abajo</span><span class="pl">Menta piperita</span></a>
+    </div>
+    <div class="col pilar">
+      <span class="eyebrow">Pilar · Decorativo</span>
+      <a class="box deco" href="#P1"><span class="id">P1</span><span class="pl">Cinta + Hiedra</span></a>
+      <a class="box deco" href="#P2"><span class="id">P2</span><span class="pl">Helecho + Begonias</span></a>
+      <a class="box deco" href="#P3"><span class="id">P3</span><span class="pl">Heuchera + Impatiens</span></a>
+    </div>
+    <div class="col">
+      <span class="eyebrow">Segmento B · Infusiones</span>
+      <a class="box season" href="#B1"><span class="id">B1 · arriba</span><span class="pl">Albahaca ⇄ Violas</span></a>
+      <a class="box" href="#B2"><span class="id">B2 · medio</span><span class="pl">Melisa + Violas</span></a>
+      <a class="box" href="#B3"><span class="id">B3 · abajo</span><span class="pl">Hierbabuena</span></a>
+    </div>
+  </div>
+  <div class="legend">
+    <span style="--c:var(--moss)">Hierbas permanentes</span>
+    <span style="--c:var(--sun)">Rotación por temporada</span>
+    <span style="--c:var(--slate)">Ornamentales de sombra</span>
+  </div>
+</section>
+
+<section id="jardineras">
+  <h2>Jardinera por jardinera</h2>
+
+  <div class="group-h"><h3>Segmento A · Cocina</h3><span class="eyebrow">Hierbas de uso diario</span></div>
+  <div class="planters">
+    <article class="planter" id="A1">
+      <div class="ph"><h3>Orégano + Ciboulette</h3><span class="id">A1 · fila superior · 61 cm</span></div>
+      <p class="why">Las dos toleran algo de sequía y quieren el máximo de luz, así que comparten la fila más soleada. El orégano cubre y cuelga por el borde y la ciboulette crece hacia arriba, por lo que no se estorban. Planta 2 orégano en los extremos y 1 mata de ciboulette al centro.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Moderado. Deja secar los 2 cm superiores. En verano, cada 2 días.</dd></div>
+        <div><dt>Cosecha</dt><dd>Orégano: tallos antes de florecer (dic–ene), seca en ramos boca abajo. Ciboulette: corta a 3 cm de la base y rebrota.</dd></div>
+        <div><dt>Cuidados</dt><dd>Poda el orégano a la mitad en marzo. Divide la ciboulette cada 2 años. Sus flores moradas son comestibles.</dd></div>
+        <div><dt>Beneficios</dt><dd>Orégano antioxidante y antiséptico. Ciboulette aporta vitamina K y reemplaza a la cebolla en ensaladas.</dd></div>
+      </dl>
+    </article>
+
+    <article class="planter" id="A2">
+      <div class="ph"><h3>Perejil liso + Cilantro</h3><span class="id">A2 · fila media · 61 cm</span></div>
+      <p class="why">Las dos prefieren clima fresco. En un muro sur el cilantro tarda más en espigar, que es su gran problema en verano santiaguino. Mitad de la jardinera para cada uno, sembrados directo desde semilla.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Constante, sustrato siempre húmedo sin encharcar. En verano, diario o día por medio.</dd></div>
+        <div><dt>Cosecha</dt><dd>Perejil: hojas exteriores desde las 10 semanas. Cilantro: desde las 6–8 semanas, antes de la flor.</dd></div>
+        <div><dt>Cuidados</dt><dd>Remoja el perejil 24 h antes de sembrar, porque germina en 3–4 semanas. Siembra cilantro cada 4 semanas para cosecha continua.</dd></div>
+        <div><dt>Beneficios</dt><dd>Perejil rico en vitamina C y hierro. Cilantro digestivo. Los dos son base del pebre.</dd></div>
+      </dl>
+    </article>
+
+    <article class="planter" id="A3">
+      <div class="ph"><h3>Menta piperita</h3><span class="id">A3 · fila inferior · 61 cm</span></div>
+      <p class="why">La reina de este muro. Va sola porque sus estolones colonizan todo. En la fila baja tiene la humedad que le gusta y colgará por el borde. Con 2 plantines se llena en una temporada.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Abundante. Nunca dejes que se seque del todo. En verano, diario.</dd></div>
+        <div><dt>Cosecha</dt><dd>Corta tallos completos sobre un par de hojas, desde las 6 semanas. Mientras más cortas, más ramifica.</dd></div>
+        <div><dt>Cuidados</dt><dd>Quita las flores para mantener el aroma. En invierno se pone fea y rebrota en primavera. Renueva la mitad cada 2–3 años.</dd></div>
+        <div><dt>Beneficios</dt><dd>Infusión digestiva y para el dolor de cabeza. Mentol refrescante para aguas y postres.</dd></div>
+      </dl>
+    </article>
+  </div>
+
+  <div class="group-h"><h3>Pilar · Decorativo</h3><span class="eyebrow">Follaje y flor de sombra, jardineras de 46 cm</span></div>
+  <div class="planters">
+    <article class="planter" id="P1">
+      <div class="ph"><h3>Cinta + Hiedra variegada</h3><span class="id">P1 · arriba · 46 cm</span></div>
+      <p class="why">Dos colgantes muy resistentes que forman una cascada verde y blanca sobre el pilar y unen visualmente los dos segmentos. Planta 2 cintas al centro y 1 hiedra en un extremo.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Moderado, 2 veces por semana en verano y cada 10 días en invierno.</dd></div>
+        <div><dt>Mantención</dt><dd>Corta los hijuelos de la cinta y replántalos. Recorta la hiedra para que no se pegue al muro.</dd></div>
+        <div><dt>Invierno</dt><dd>Resisten heladas suaves. La cinta puede quemar puntas bajo 0 °C.</dd></div>
+        <div><dt>Aporte</dt><dd>Follaje todo el año. Las dos filtran bien el aire.</dd></div>
+      </dl>
+    </article>
+
+    <article class="planter" id="P2">
+      <div class="ph"><h3>Helecho espada + Begonias</h3><span class="id">P2 · medio · 46 cm</span></div>
+      <p class="why">El helecho da volumen y textura, y las begonias semperflorens ponen color rosado o rojo de primavera a otoño. Ninguna tolera sol fuerte, así que el muro sur les va perfecto. 1 helecho al centro y 2 begonias a los lados.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Sustrato húmedo constante. Pulveriza el helecho en días secos de verano.</dd></div>
+        <div><dt>Mantención</dt><dd>Retira frondas secas y flores marchitas. Fertiliza cada mes en primavera y verano.</dd></div>
+        <div><dt>Invierno</dt><dd>Cubre con malla antihelada en noches bajo 0 °C, porque las begonias son sensibles.</dd></div>
+        <div><dt>Aporte</dt><dd>Contraste de textura fina y flor continua.</dd></div>
+      </dl>
+    </article>
+
+    <article class="planter" id="P3">
+      <div class="ph"><h3>Heuchera + Impatiens</h3><span class="id">P3 · abajo · 46 cm</span></div>
+      <p class="why">La heuchera aporta hojas burdeo o lima todo el año y el impatiens (alegría del hogar) florece sin parar en sombra. 1 heuchera y 2–3 impatiens.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Frecuente en verano porque el impatiens se lacia rápido si se seca.</dd></div>
+        <div><dt>Mantención</dt><dd>Despunta el impatiens para que ramifique. Retira hojas viejas de la heuchera.</dd></div>
+        <div><dt>Invierno</dt><dd>El impatiens muere con la helada. Reemplázalo en mayo por prímulas o violas.</dd></div>
+        <div><dt>Aporte</dt><dd>Color de hoja todo el año más flor en temporada cálida.</dd></div>
+      </dl>
+    </article>
+  </div>
+
+  <div class="group-h"><h3>Segmento B · Infusiones y temporada</h3><span class="eyebrow">Aromáticas para té y flores comestibles</span></div>
+  <div class="planters">
+    <article class="planter" id="B1">
+      <div class="ph"><h3>Albahaca ⇄ Violas</h3><span class="id">B1 · fila superior · 61 cm</span></div>
+      <p class="why">La jardinera más soleada del segmento B se usa por temporada. De mediados de octubre a abril, 3 albahacas. Cuando llega el frío la albahaca muere, y en mayo la reemplazas por violas, que florecen todo el invierno en sombra.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Albahaca: regular, sin mojar las hojas, de mañana. Violas: moderado.</dd></div>
+        <div><dt>Cosecha</dt><dd>Corta la albahaca sobre el segundo par de hojas y quita siempre las espigas florales. Las violas se comen enteras en ensaladas.</dd></div>
+        <div><dt>Cuidados</dt><dd>No plantes albahaca antes de mediados de octubre, porque bajo 10 °C se detiene. En este muro rinde menos que al sol.</dd></div>
+        <div><dt>Beneficios</dt><dd>Albahaca para pesto y tomates. Violas decoran platos y atraen polinizadores.</dd></div>
+      </dl>
+    </article>
+
+    <article class="planter" id="B2">
+      <div class="ph"><h3>Melisa (toronjil) + Violas</h3><span class="id">B2 · fila media · 61 cm</span></div>
+      <p class="why">La melisa es la hierba de infusión que mejor tolera la sombra y da aroma a limón, que es lo más cercano al cedrón que puede crecer aquí. Sus raíces son menos invasoras que las de la menta. 2 melisas y 2 violas en los extremos.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Regular, 3 veces por semana en verano.</dd></div>
+        <div><dt>Cosecha</dt><dd>Hojas y puntas antes de la flor. Corta a la mitad en verano para un segundo brote.</dd></div>
+        <div><dt>Cuidados</dt><dd>Se autosiembra con facilidad. Corta las flores si no quieres que se expanda.</dd></div>
+        <div><dt>Beneficios</dt><dd>Infusión calmante que ayuda a dormir y a digerir.</dd></div>
+      </dl>
+    </article>
+
+    <article class="planter" id="B3">
+      <div class="ph"><h3>Hierbabuena</h3><span class="id">B3 · fila inferior · 61 cm</span></div>
+      <p class="why">Es la menta de uso más chileno: para mote, ensaladas y mojitos. Va sola y abajo por la misma razón que la piperita. Separarlas evita que se crucen y pierdan su aroma característico.</p>
+      <dl class="care">
+        <div><dt>Riego</dt><dd>Abundante, sustrato siempre húmedo. En verano, diario.</dd></div>
+        <div><dt>Cosecha</dt><dd>Continua desde las 6 semanas. Corta tallos completos.</dd></div>
+        <div><dt>Cuidados</dt><dd>Vigila la roya (manchas naranjas bajo la hoja). Si aparece, corta a ras y bota esas hojas.</dd></div>
+        <div><dt>Beneficios</dt><dd>Digestiva, alivia náuseas y da frescor.</dd></div>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<section id="fichas">
+  <h2>Fichas rápidas</h2>
+  <div class="tablebox">
+    <table class="t">
+      <thead><tr><th>Planta</th><th>Luz mínima</th><th>Riego verano</th><th>Riego invierno</th><th>Cómo empezar</th><th>Primera cosecha</th></tr></thead>
+      <tbody>
+        <tr><td>Menta piperita<span class="sci">Mentha × piperita</span></td><td>2–3 h</td><td>Diario</td><td>1 vez/sem</td><td>Plantín</td><td>6 semanas</td></tr>
+        <tr><td>Hierbabuena<span class="sci">Mentha spicata</span></td><td>2–3 h</td><td>Diario</td><td>1 vez/sem</td><td>Plantín</td><td>6 semanas</td></tr>
+        <tr><td>Melisa<span class="sci">Melissa officinalis</span></td><td>3 h</td><td>3 veces/sem</td><td>Cada 10 días</td><td>Plantín</td><td>8 semanas</td></tr>
+        <tr><td>Perejil liso<span class="sci">Petroselinum crispum</span></td><td>3 h</td><td>Día por medio</td><td>1 vez/sem</td><td>Semilla, sep–oct</td><td>10–12 semanas</td></tr>
+        <tr><td>Cilantro<span class="sci">Coriandrum sativum</span></td><td>3 h</td><td>Día por medio</td><td>1 vez/sem</td><td>Semilla, sep–nov y mar–abr</td><td>6–8 semanas</td></tr>
+        <tr><td>Ciboulette<span class="sci">Allium schoenoprasum</span></td><td>3–4 h</td><td>Cada 2 días</td><td>Cada 10 días</td><td>Plantín</td><td>6 semanas</td></tr>
+        <tr><td>Orégano<span class="sci">Origanum vulgare</span></td><td>4 h</td><td>Cada 2 días</td><td>Cada 2 sem</td><td>Plantín</td><td>8 semanas</td></tr>
+        <tr><td>Albahaca<span class="sci">Ocimum basilicum</span></td><td>5–6 h</td><td>Diario</td><td>No sobrevive</td><td>Plantín, desde mediados oct</td><td>4–6 semanas</td></tr>
+        <tr><td>Violas<span class="sci">Viola cornuta</span></td><td>2 h</td><td>Cada 2 días</td><td>1 vez/sem</td><td>Plantín, abr–may</td><td>Flor en 3 semanas</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Antes de regar, mete un dedo 2 cm en el sustrato. Si está húmedo, espera. En un muro sur el agua se evapora más lento que en uno norte, y el exceso de riego es la principal causa de pérdida de plantas. Riega siempre temprano en la mañana.</p>
+</section>
+
+<section id="calendario">
+  <h2>Calendario desde hoy</h2>
+  <p class="prose">Estás empezando a fines de septiembre, que es el mejor momento del año en Santiago para plantar hierbas.</p>
+  <div class="cal">
+    <div class="season-c"><span class="eyebrow">Fin sep – oct</span><h3>Instalación</h3><ul><li>Montar escuadras y jardineras</li><li>Plantar mentas, melisa, orégano, ciboulette y ornamentales</li><li>Sembrar perejil y cilantro</li><li>Albahaca desde el 15 de octubre</li></ul></div>
+    <div class="season-c"><span class="eyebrow">Nov – feb</span><h3>Verano</h3><ul><li>Riego diario en jardineras A3, B3 y B1</li><li>Humus de lombriz cada 6–8 semanas</li><li>Cosechar orégano antes de la flor y secarlo</li><li>Quitar flores de albahaca y menta</li></ul></div>
+    <div class="season-c"><span class="eyebrow">Mar – may</span><h3>Otoño</h3><ul><li>Segunda siembra de cilantro</li><li>Podar orégano y melisa a la mitad</li><li>Mayo: retirar albahaca e impatiens, poner violas</li></ul></div>
+    <div class="season-c"><span class="eyebrow">Jun – ago</span><h3>Invierno</h3><ul><li>Riego mínimo, 1 vez por semana o menos</li><li>Malla antihelada sobre P2 en noches bajo 0 °C</li><li>Las mentas se ven feas y rebrotan en primavera</li></ul></div>
+  </div>
+</section>
+
+<section id="presupuesto">
+  <h2>Cotización de insumos</h2>
+  <p class="prose">Precios revisados el 25 de septiembre de 2026. Los marcados como <b>verificado</b> se leyeron en el sitio de la tienda. Los <b>estimados</b> son referencias de mercado para artículos cuyo precio no se pudo leer en línea, así que conviene confirmarlos en tienda.</p>
+  <div class="tablebox">
+    <table class="t">
+      <thead><tr><th>Insumo</th><th>Tienda</th><th class="num">Cant.</th><th class="num">Unitario</th><th class="num">Subtotal</th><th>Precio</th></tr></thead>
+      <tbody>
+        <tr><td>Jardinera plástica 15×19×61 cm<span class="sci">Casa Bonita · segmentos A y B</span></td><td><a href="https://www.sodimac.cl/sodimac-cl/articulo/110133009/Jardinera-de-plastico-15x19x61-cm/110133232">Sodimac</a></td><td class="num">6</td><td class="num">$6.990</td><td class="num">$41.940</td><td><span class="pill ok">verificado</span></td></tr>
+        <tr><td>Jardinera plástica 15×19×46 cm<span class="sci">Casa Bonita · pilar</span></td><td><a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10520/Maceteros-y-Accesorios">Sodimac</a></td><td class="num">3</td><td class="num">$4.090</td><td class="num">$12.270</td><td><span class="pill ok">verificado</span></td></tr>
+        <tr><td>Escuadra metálica reforzada 15–20 cm<span class="sci">2 por jardinera</span></td><td>Sodimac / Easy</td><td class="num">18</td><td class="num">~$1.200</td><td class="num">$21.600</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Tarugos y tornillos para albañilería</td><td>Sodimac / Easy</td><td class="num">1</td><td class="num">~$3.000</td><td class="num">$3.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Tierra de hoja Anasac 40 L</td><td><a href="https://www.sodimac.cl/sodimac-cl/articulo/110185529/Tierra-de-Hoja-para-Jardin-40-litros-saco/110185534">Sodimac</a></td><td class="num">3</td><td class="num">$8.290</td><td class="num">$24.870</td><td><span class="pill ok">verificado</span></td></tr>
+        <tr><td>Humus de lombriz, bolsa pequeña</td><td><a href="https://www.sodimac.cl/sodimac-cl/b/humus-de-lombriz">Sodimac</a></td><td class="num">1</td><td class="num">~$4.000</td><td class="num">$4.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Perlita 5 L<span class="sci">mejora el drenaje</span></td><td><a href="https://www.sodimac.cl/sodimac-cl/b/perlita">Sodimac</a></td><td class="num">1</td><td class="num">~$3.000</td><td class="num">$3.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Semilla perejil Anasac 5 g</td><td><a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10537/Semillas-y-Bulbos?f.product.brandName=anasac">Sodimac</a></td><td class="num">1</td><td class="num">$2.690</td><td class="num">$2.690</td><td><span class="pill ok">verificado</span></td></tr>
+        <tr><td>Semilla cilantro Anasac 5 g</td><td><a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10537/Semillas-y-Bulbos?f.product.brandName=anasac">Sodimac</a></td><td class="num">1</td><td class="num">$2.590</td><td class="num">$2.590</td><td><span class="pill ok">verificado</span></td></tr>
+        <tr><td>Plantines de hierbas<span class="sci">2 menta, 1 hierbabuena, 2 melisa, 2 orégano, 1 ciboulette</span></td><td>Vivero / Sodimac jardín</td><td class="num">8</td><td class="num">~$2.000</td><td class="num">$16.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Ornamentales de sombra<span class="sci">cintas, hiedra, helecho, begonias, heuchera, impatiens en bandeja</span></td><td>Vivero / feria</td><td class="num">1</td><td class="num">~$15.000</td><td class="num">$15.000</td><td><span class="pill mid">estimado</span></td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="4">Total fase 1</td><td class="num">$146.960</td><td></td></tr></tfoot>
+    </table>
+  </div>
+  <div class="callout">
+    <h3>Fuera de este total</h3>
+    <p><b>Albahaca</b> (3 plantines, ~$6.000) y <b>violas</b> (~$4.000) se compran en octubre y mayo. <b>Menta en semilla</b> existe (Anasac, sachet de 0,3 g), pero tarda y germina de forma irregular, así que conviene comprarla en plantín. Si ya tienes regadera, no necesitas otra.</p>
+  </div>
+  <div class="prose">
+    <h3>Comparación entre tiendas</h3>
+    <p><b>Sodimac:</b> tiene la mejor relación precio/tamaño en jardineras plásticas largas y la mayoría de los precios verificados de esta tabla.</p>
+    <p><b>Easy:</b> su catálogo en línea bloqueó la consulta automática y la búsqueda solo devolvió maceteros canasto redondos ($14.990 a $21.990), que no sirven para muro. Revisa en tienda jardineras equivalentes de 60 cm. Si alguna baja de $6.990, reemplázala directo en la tabla.</p>
+    <p><b>IKEA:</b> no tiene jardineras largas para muro a precio competitivo. La más cercana, KORKGRAN 27×58 cm, cuesta $19.990, casi el triple que la de Sodimac.</p>
+  </div>
+</section>
+
+<section id="riego">
+  <h2>Riego: manual ahora, goteo después</h2>
+  <div class="prose">
+    <p>Con riego manual, organiza el muro por necesidad de agua. Las jardineras de abajo (A3, B3, P3) y B1 en verano piden agua todos los días. Las de arriba (A1, P1) toleran quedar un día sin riego.</p>
+    <p>Para dejar lista la ampliación a goteo desde ya:</p>
+  </div>
+  <ol class="steps">
+    <li>Deja 3–4 cm libres entre el borde de cada jardinera y el muro para pasar después la manguera de 16 mm por detrás.</li>
+    <li>Ubica una llave de agua a menos de 5 m del muro, o compra un adaptador de llave.</li>
+    <li>Fase 2: un kit de goteo de 20 m (<a href="https://www.sodimac.cl/sodimac-cl/articulo/116549043/Kit-de-Riego-Sistema-Automatico-por-Goteo-20mt-Set-Completo/116549044">Sodimac</a>) alcanza para las 9 jardineras con 2 goteros cada una. Los goteros sueltos parten en $890. Suma un programador de llave a pilas.</li>
+    <li>Usa goteros regulables: las mentas necesitan casi el doble de agua que el orégano.</li>
+  </ol>
+  <p class="note">El precio del kit y del programador no se pudo leer en línea. Como referencia de mercado, calcula entre $30.000 y $50.000 en total para la fase 2.</p>
+</section>
+
+<section id="montaje">
+  <h2>Antes de montar</h2>
+  <ol class="steps">
+    <li>Distribuye 3 filas separadas unos 55–60 cm en los 2 m de alto. Deja la primera a unos 40 cm del suelo para que no le salpique tierra.</li>
+    <li>Revisa que las jardineras tengan agujeros de drenaje. Si no tienen, hazles 4–5 con taladro. Una capa de 2 cm de gravilla en el fondo evita que se tapen.</li>
+    <li>Mezcla el sustrato así: 3 partes de tierra de hoja, 1 de humus y ½ de perlita.</li>
+    <li>Una jardinera de 61 cm llena y regada pesa cerca de 20 kg. Usa escuadras reforzadas con tarugo de 8 mm y amarra cada jardinera a su escuadra con alambre o abrazadera plástica.</li>
+    <li>El agua que escurre mancha el muro. Si te importa, compra las bases plásticas para jardinera (Sodimac) o pinta el muro con látex exterior lavable.</li>
+  </ol>
+</section>
+
+<footer>
+  <p>Fuentes de precios: <a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10520/Maceteros-y-Accesorios">Sodimac maceteros</a> · <a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10537/Semillas-y-Bulbos?f.product.brandName=anasac">Sodimac semillas Anasac</a> · <a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10539/Tierra-de-Hoja">Sodimac tierra de hoja</a> · <a href="https://www.easy.cl/jardin-y-aire-libre/jardin/maceteros-y-decoracion/maceteros-y-accesorios">Easy maceteros</a> · <a href="https://www.ikea.com/cl/es/cat/maceteros-exterior-30436/">IKEA maceteros exterior</a>. Horas de sol calculadas para 33,4° S sin obstáculos. Los precios cambian seguido: confírmalos antes de comprar.</p>
+</footer>
+
+</div>
