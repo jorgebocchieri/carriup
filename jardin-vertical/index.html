@@ -127,6 +127,14 @@ table.t{border-collapse:collapse;width:100%;min-width:760px;font-size:.93rem}
 
 .steps{margin:0;padding-left:22px;display:grid;gap:8px;max-width:70ch}
 .callout{background:var(--slate-soft);border-radius:10px;padding:16px 18px;max-width:75ch;display:grid;gap:8px}
+
+/* Decorative plants */
+.deco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px}
+.deco{background:var(--paper);border:1px solid var(--line);border-top:6px solid var(--slate);border-radius:10px;padding:16px 18px;display:grid;gap:10px;align-content:start;scroll-margin-top:16px}
+.deco .sci{font-style:italic;color:var(--muted);font-size:.9rem}
+.deco .tags{display:flex;flex-wrap:wrap;gap:6px}
+.deco .care{grid-template-columns:1fr;gap:8px}
+.pill.slate{background:var(--slate-soft);color:var(--slate)}
 footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
@@ -315,11 +323,108 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
   </div>
 </section>
 
+<section id="decorativas">
+  <h2>Plantas decorativas</h2>
+  <p class="prose">Las ornamentales van en el pilar, al centro del muro, para que el color separe visualmente la zona de cocina de la de infusiones. Todas toleran la sombra del muro sur. Se combinan una perenne de follaje, que da estructura todo el año, con una de flor, que da el color de temporada.</p>
+  <div class="deco-grid">
+    <article class="deco">
+      <div><h3>Cinta</h3><span class="sci">Chlorophytum comosum</span></div>
+      <div class="tags"><span class="pill slate">P1</span><span class="pill ok">Perenne</span><span class="pill ok">Segura con mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Cascada de hojas verdes con franja blanca y hijuelos colgantes. Ilumina el rincón más oscuro del pilar.</dd></div>
+        <div><dt>Beneficios</dt><dd>Una de las plantas que mejor filtra el aire. Casi imposible de matar y se multiplica sola.</dd></div>
+        <div><dt>Riego</dt><dd>2 veces por semana en verano, cada 10 días en invierno. Tolera olvidos.</dd></div>
+        <div><dt>Cuidados</dt><dd>Corta los hijuelos y enráizalos en agua para rellenar otras jardineras gratis. Fertiliza 1 vez al mes en primavera.</dd></div>
+        <div><dt>Ojo</dt><dd>Bajo 0 °C se queman las puntas. Rebrota en primavera.</dd></div>
+      </dl>
+    </article>
+    <article class="deco">
+      <div><h3>Hiedra variegada</h3><span class="sci">Hedera helix</span></div>
+      <div class="tags"><span class="pill slate">P1</span><span class="pill ok">Perenne</span><span class="pill bad">Tóxica para mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Follaje verde y crema que cuelga todo el año y amarra visualmente los dos segmentos.</dd></div>
+        <div><dt>Beneficios</dt><dd>Verde permanente, muy resistente al frío y a la sombra profunda.</dd></div>
+        <div><dt>Riego</dt><dd>Moderado, deja secar la superficie entre riegos.</dd></div>
+        <div><dt>Cuidados</dt><dd>Recórtala 2 veces al año. No dejes que se pegue al muro, porque sus raíces aéreas marcan la pintura.</dd></div>
+        <div><dt>Ojo</dt><dd>Hojas y frutos tóxicos para perros y gatos. Mantenla colgando alto.</dd></div>
+      </dl>
+    </article>
+    <article class="deco">
+      <div><h3>Helecho espada</h3><span class="sci">Nephrolepis exaltata</span></div>
+      <div class="tags"><span class="pill slate">P2</span><span class="pill ok">Perenne</span><span class="pill ok">Segura con mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Volumen y textura fina. Es el contrapunto verde a las flores de las begonias.</dd></div>
+        <div><dt>Beneficios</dt><dd>Aporta humedad al entorno y es de las plantas más seguras para mascotas.</dd></div>
+        <div><dt>Riego</dt><dd>Sustrato siempre húmedo. Pulveriza las frondas en días secos y calurosos.</dd></div>
+        <div><dt>Cuidados</dt><dd>Retira frondas secas desde la base. Si se ve pálido, dale humus.</dd></div>
+        <div><dt>Ojo</dt><dd>Sufre con viento seco y helada fuerte. Protégelo en junio y julio.</dd></div>
+      </dl>
+    </article>
+    <article class="deco">
+      <div><h3>Begonia de flor</h3><span class="sci">Begonia semperflorens</span></div>
+      <div class="tags"><span class="pill slate">P2</span><span class="pill ok">Perenne</span><span class="pill bad">Tóxica para mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Flor rosada, roja o blanca de primavera a otoño, con hojas cerosas verdes o bronce.</dd></div>
+        <div><dt>Beneficios</dt><dd>Florece meses sin parar con muy poca luz.</dd></div>
+        <div><dt>Riego</dt><dd>Moderado, sin encharcar. Riega a la base, no sobre las hojas.</dd></div>
+        <div><dt>Cuidados</dt><dd>Quita flores secas. Despunta en primavera para que se ponga tupida.</dd></div>
+        <div><dt>Ojo</dt><dd>Sensible a la helada: malla antihelada bajo 0 °C. Tóxica si la mascota la mastica.</dd></div>
+      </dl>
+    </article>
+    <article class="deco">
+      <div><h3>Heuchera</h3><span class="sci">Heuchera spp.</span></div>
+      <div class="tags"><span class="pill slate">P3</span><span class="pill ok">Perenne</span><span class="pill ok">Segura con mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Hojas burdeo, lima o caramelo todo el año. Es la que da color cuando nada florece.</dd></div>
+        <div><dt>Beneficios</dt><dd>Perenne rústica, soporta el frío de Santiago sin problemas.</dd></div>
+        <div><dt>Riego</dt><dd>Moderado. No tolera tierra empapada.</dd></div>
+        <div><dt>Cuidados</dt><dd>Retira hojas viejas en primavera. Cada 3 años sepárala para renovarla.</dd></div>
+        <div><dt>Ojo</dt><dd>Crece lento; compra una planta ya desarrollada.</dd></div>
+      </dl>
+    </article>
+    <article class="deco">
+      <div><h3>Impatiens</h3><span class="sci">Impatiens walleriana</span></div>
+      <div class="tags"><span class="pill slate">P3</span><span class="pill mid">De temporada</span><span class="pill ok">Segura con mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Alegría del hogar: una alfombra de flores de octubre a abril, en la sombra más cerrada.</dd></div>
+        <div><dt>Beneficios</dt><dd>Máximo color por muy poco dinero.</dd></div>
+        <div><dt>Riego</dt><dd>Frecuente en verano. Se lacia en horas si se seca, y se recupera al regarla.</dd></div>
+        <div><dt>Cuidados</dt><dd>Despunta las puntas al plantar para que ramifique.</dd></div>
+        <div><dt>Ojo</dt><dd>Muere con la primera helada. En mayo reemplázala por prímulas o violas.</dd></div>
+      </dl>
+    </article>
+    <article class="deco">
+      <div><h3>Violas</h3><span class="sci">Viola cornuta</span></div>
+      <div class="tags"><span class="pill slate">B1 y B2 (invierno)</span><span class="pill mid">De temporada</span><span class="pill ok">Segura con mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Flores pequeñas moradas, amarillas o blancas justo cuando el muro está más apagado, de mayo a octubre.</dd></div>
+        <div><dt>Beneficios</dt><dd>Flores comestibles para ensaladas y postres. Atraen polinizadores.</dd></div>
+        <div><dt>Riego</dt><dd>Cada 2 días en primavera, 1 vez por semana en invierno.</dd></div>
+        <div><dt>Cuidados</dt><dd>Corta las flores marchitas para que sigan saliendo nuevas.</dd></div>
+        <div><dt>Ojo</dt><dd>Con el calor de diciembre decaen. Ahí vuelve la albahaca.</dd></div>
+      </dl>
+    </article>
+  </div>
+  <h3>Si quieres variar</h3>
+    <div class="tablebox">
+    <table class="t">
+      <thead><tr><th>Alternativa</th><th>Reemplaza a</th><th>Por qué considerarla</th><th>Mascotas</th></tr></thead>
+      <tbody>
+        <tr><td>Chilco<span class="sci">Fuchsia magellanica</span></td><td>Begonia</td><td>Nativa chilena, ama la sombra y atrae picaflores. Necesita una jardinera más honda o maceta aparte.</td><td>Segura</td></tr>
+        <tr><td>Incienso colgante<span class="sci">Plectranthus coleoides</span></td><td>Hiedra</td><td>Cascada verde y blanca con aroma, sin marcar el muro.</td><td>Precaución</td></tr>
+        <tr><td>Coleo<span class="sci">Plectranthus scutellarioides</span></td><td>Impatiens</td><td>Hojas de colores intensos de primavera a otoño.</td><td>Tóxico</td></tr>
+        <tr><td>Prímula<span class="sci">Primula spp.</span></td><td>Impatiens en invierno</td><td>Flor intensa de junio a septiembre en sombra.</td><td>Precaución</td></tr>
+        <tr><td>Lamio<span class="sci">Lamium maculatum</span></td><td>Hiedra</td><td>Hojas plateadas y flor rosada, cubre y cuelga.</td><td>Segura</td></tr>
+      </tbody>
+    </table>
+    </div>
+</section>
+
 <section id="fichas">
   <h2>Fichas rápidas</h2>
   <div class="tablebox">
     <table class="t">
-      <thead><tr><th>Planta</th><th>Luz mínima</th><th>Riego verano</th><th>Riego invierno</th><th>Cómo empezar</th><th>Primera cosecha</th></tr></thead>
+      <thead><tr><th>Planta</th><th>Luz mínima</th><th>Riego verano</th><th>Riego invierno</th><th>Cómo empezar</th><th>Cosecha / flor</th></tr></thead>
       <tbody>
         <tr><td>Menta piperita<span class="sci">Mentha × piperita</span></td><td>2–3 h</td><td>Diario</td><td>1 vez/sem</td><td>Plantín</td><td>6 semanas</td></tr>
         <tr><td>Hierbabuena<span class="sci">Mentha spicata</span></td><td>2–3 h</td><td>Diario</td><td>1 vez/sem</td><td>Plantín</td><td>6 semanas</td></tr>
@@ -330,6 +435,12 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
         <tr><td>Orégano<span class="sci">Origanum vulgare</span></td><td>4 h</td><td>Cada 2 días</td><td>Cada 2 sem</td><td>Plantín</td><td>8 semanas</td></tr>
         <tr><td>Albahaca<span class="sci">Ocimum basilicum</span></td><td>5–6 h</td><td>Diario</td><td>No sobrevive</td><td>Plantín, desde mediados oct</td><td>4–6 semanas</td></tr>
         <tr><td>Violas<span class="sci">Viola cornuta</span></td><td>2 h</td><td>Cada 2 días</td><td>1 vez/sem</td><td>Plantín, abr–may</td><td>Flor en 3 semanas</td></tr>
+              <tr><td>Cinta<span class="sci">Chlorophytum comosum</span></td><td>Sombra</td><td>2 veces/sem</td><td>Cada 10 días</td><td>Planta</td><td>Hijuelos al 1er año</td></tr>
+        <tr><td>Hiedra<span class="sci">Hedera helix</span></td><td>Sombra</td><td>2 veces/sem</td><td>Cada 10 días</td><td>Planta</td><td>Decorativa</td></tr>
+        <tr><td>Helecho espada<span class="sci">Nephrolepis exaltata</span></td><td>Sombra</td><td>Día por medio</td><td>1 vez/sem</td><td>Planta</td><td>Decorativa</td></tr>
+        <tr><td>Begonia<span class="sci">Begonia semperflorens</span></td><td>1–2 h</td><td>Día por medio</td><td>1 vez/sem</td><td>Plantín</td><td>Flor oct–may</td></tr>
+        <tr><td>Heuchera<span class="sci">Heuchera spp.</span></td><td>Sombra</td><td>Cada 2 días</td><td>Cada 10 días</td><td>Planta</td><td>Color todo el año</td></tr>
+        <tr><td>Impatiens<span class="sci">Impatiens walleriana</span></td><td>Sombra</td><td>Diario</td><td>No sobrevive</td><td>Plantín, oct</td><td>Flor oct–abr</td></tr>
       </tbody>
     </table>
   </div>
