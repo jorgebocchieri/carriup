@@ -79,6 +79,10 @@ header{padding-block:48px 8px;display:grid;gap:18px}
 /* Wall map */
 .wall{background:var(--wall);border-radius:6px;padding:14px;display:grid;grid-template-columns:2fr .9fr 2fr;gap:12px;overflow-x:auto}
 .col{display:grid;gap:10px;grid-template-rows:auto repeat(3,1fr)}
+.seg{display:grid;gap:10px;grid-template-columns:1fr 1fr;align-content:start}
+.seg .eyebrow{grid-column:1/-1;text-align:center;color:var(--ink);opacity:.75}
+.seg .low{grid-column:1/-1;justify-self:center;width:calc(50% - 5px);margin-top:28px}
+.box .dec{display:block;font-size:.8rem;color:var(--slate);margin-top:2px}
 .col .eyebrow{text-align:center;color:var(--ink);opacity:.75}
 .pilar{background:color-mix(in srgb,var(--wall) 70%,var(--ink) 12%);border-radius:4px;padding:8px 6px}
 .box{display:block;text-decoration:none;color:var(--ink);background:var(--paper);border-radius:4px;padding:10px 10px 12px;border-bottom:6px solid var(--moss);min-height:84px}
@@ -92,6 +96,7 @@ header{padding-block:48px 8px;display:grid;gap:18px}
 @media (max-width:640px){
   .wall{grid-template-columns:1fr}
   .col{grid-template-rows:auto}
+  .seg .low{margin-top:0}
 }
 
 /* Planter cards */
@@ -144,7 +149,7 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
 <header>
   <span class="eyebrow">Proyecto hogar · Santiago, RM</span>
   <h1>Muro Sur de Hierbas</h1>
-  <p class="lede">Nueve jardineras en un muro de 4 × 2 m cuya cara con plantas mira al sur. En Santiago eso significa sombra casi todo el año, así que la selección prioriza hierbas que rinden en semisombra y deja fuera las que necesitan sol pleno.</p>
+  <p class="lede">Nueve jardineras en un muro de 4 × 2 m, con hierbas y decorativas intercaladas, cuya cara con plantas mira al sur. En Santiago eso significa sombra casi todo el año, así que la selección prioriza hierbas que rinden en semisombra y deja fuera las que necesitan sol pleno.</p>
   <div class="facts">
     <span>Muro <b>4 × 2 m</b></span>
     <span>Segmentos <b>2 + pilar</b></span>
@@ -183,13 +188,13 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
 
 <section id="mapa">
   <h2>Distribución en el muro</h2>
-  <p class="prose">La fila superior recibe más luz y más viento. La inferior es la más fresca y húmeda. Las mentas van abajo y cada una en su propia jardinera, porque sus estolones invaden todo lo que tienen al lado.</p>
-  <div class="wall" role="img" aria-label="Esquema del muro con 9 jardineras: tres en el segmento izquierdo, tres en el pilar y tres en el segmento derecho">
-    <div class="col">
+  <p class="prose">Cada segmento lleva 2 jardineras paralelas arriba y 1 centrada abajo. Las dos de arriba reciben la misma luz, la máxima del muro, así que ahí van las hierbas que más sol piden. La de abajo es la más fresca y húmeda, y le toca a la menta. El pilar mantiene sus 3 jardineras apiladas. Cada jardinera de hierbas lleva ahora una decorativa intercalada (en gris).</p>
+  <div class="wall" role="img" aria-label="Esquema del muro: en cada segmento dos jardineras paralelas arriba y una centrada abajo; en el pilar tres jardineras apiladas">
+    <div class="seg">
       <span class="eyebrow">Segmento A · Cocina</span>
-      <a class="box" href="#A1"><span class="id">A1 · arriba</span><span class="pl">Orégano + Ciboulette</span></a>
-      <a class="box" href="#A2"><span class="id">A2 · medio</span><span class="pl">Perejil liso + Cilantro</span></a>
-      <a class="box" href="#A3"><span class="id">A3 · abajo</span><span class="pl">Menta piperita</span></a>
+      <a class="box" href="#A1"><span class="id">A1 · arriba izq.</span><span class="pl">Orégano + Ciboulette</span><span class="dec">+ Capuchina</span></a>
+      <a class="box" href="#A2"><span class="id">A2 · arriba der.</span><span class="pl">Perejil + Cilantro</span><span class="dec">+ Alyssum</span></a>
+      <a class="box low" href="#A3"><span class="id">A3 · abajo</span><span class="pl">Menta piperita</span><span class="dec">+ Heuchera</span></a>
     </div>
     <div class="col pilar">
       <span class="eyebrow">Pilar · Decorativo</span>
@@ -197,11 +202,11 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
       <a class="box deco" href="#P2"><span class="id">P2</span><span class="pl">Helecho + Begonias</span></a>
       <a class="box deco" href="#P3"><span class="id">P3</span><span class="pl">Heuchera + Impatiens</span></a>
     </div>
-    <div class="col">
+    <div class="seg">
       <span class="eyebrow">Segmento B · Infusiones</span>
-      <a class="box season" href="#B1"><span class="id">B1 · arriba</span><span class="pl">Albahaca ⇄ Violas</span></a>
-      <a class="box" href="#B2"><span class="id">B2 · medio</span><span class="pl">Melisa + Violas</span></a>
-      <a class="box" href="#B3"><span class="id">B3 · abajo</span><span class="pl">Hierbabuena</span></a>
+      <a class="box season" href="#B1"><span class="id">B1 · arriba izq.</span><span class="pl">Albahaca ⇄ Violas</span><span class="dec">+ Impatiens</span></a>
+      <a class="box" href="#B2"><span class="id">B2 · arriba der.</span><span class="pl">Melisa</span><span class="dec">+ Violas</span></a>
+      <a class="box low" href="#B3"><span class="id">B3 · abajo</span><span class="pl">Hierbabuena</span><span class="dec">+ Helecho</span></a>
     </div>
   </div>
   <div class="legend">
@@ -217,8 +222,8 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
   <div class="group-h"><h3>Segmento A · Cocina</h3><span class="eyebrow">Hierbas de uso diario</span></div>
   <div class="planters">
     <article class="planter" id="A1">
-      <div class="ph"><h3>Orégano + Ciboulette</h3><span class="id">A1 · fila superior · 61 cm</span></div>
-      <p class="why">Las dos toleran algo de sequía y quieren el máximo de luz, así que comparten la fila más soleada. El orégano cubre y cuelga por el borde y la ciboulette crece hacia arriba, por lo que no se estorban. Planta 2 orégano en los extremos y 1 mata de ciboulette al centro.</p>
+      <div class="ph"><h3>Orégano + Ciboulette + Capuchina</h3><span class="id">A1 · arriba izquierda · 61 cm</span></div>
+      <p class="why">Las dos toleran algo de sequía y quieren el máximo de luz, así que comparten la fila más soleada. El orégano cubre y cuelga por el borde y la ciboulette crece hacia arriba, por lo que no se estorban. Orégano en un extremo, ciboulette en el otro y al centro, adelante, una <b>capuchina</b>: cae en cascada con flores naranjas y amarillas de primavera a otoño. Sus flores y hojas son comestibles, con sabor picante, y atrae a los pulgones lejos de las hierbas.</p>
       <dl class="care">
         <div><dt>Riego</dt><dd>Moderado. Deja secar los 2 cm superiores. En verano, cada 2 días.</dd></div>
         <div><dt>Cosecha</dt><dd>Orégano: tallos antes de florecer (dic–ene), seca en ramos boca abajo. Ciboulette: corta a 3 cm de la base y rebrota.</dd></div>
@@ -228,8 +233,8 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
     </article>
 
     <article class="planter" id="A2">
-      <div class="ph"><h3>Perejil liso + Cilantro</h3><span class="id">A2 · fila media · 61 cm</span></div>
-      <p class="why">Las dos prefieren clima fresco. En un muro sur el cilantro tarda más en espigar, que es su gran problema en verano santiaguino. Mitad de la jardinera para cada uno, sembrados directo desde semilla.</p>
+      <div class="ph"><h3>Perejil liso + Cilantro + Alyssum</h3><span class="id">A2 · arriba derecha · 61 cm</span></div>
+      <p class="why">Las dos prefieren clima fresco. En un muro sur el cilantro tarda más en espigar, que es su gran problema en verano santiaguino. Mitad de la jardinera para cada uno, sembrados directo desde semilla, y una línea de <b>alyssum</b> blanco en el borde delantero. Es una alfombra de flor con aroma a miel que atrae sírfidos, insectos que se comen los pulgones.</p>
       <dl class="care">
         <div><dt>Riego</dt><dd>Constante, sustrato siempre húmedo sin encharcar. En verano, diario o día por medio.</dd></div>
         <div><dt>Cosecha</dt><dd>Perejil: hojas exteriores desde las 10 semanas. Cilantro: desde las 6–8 semanas, antes de la flor.</dd></div>
@@ -239,8 +244,8 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
     </article>
 
     <article class="planter" id="A3">
-      <div class="ph"><h3>Menta piperita</h3><span class="id">A3 · fila inferior · 61 cm</span></div>
-      <p class="why">La reina de este muro. Va sola porque sus estolones colonizan todo. En la fila baja tiene la humedad que le gusta y colgará por el borde. Con 2 plantines se llena en una temporada.</p>
+      <div class="ph"><h3>Menta piperita + Heuchera</h3><span class="id">A3 · abajo, centrada · 61 cm</span></div>
+      <p class="why">La reina de este muro. Para que conviva con una decorativa, la menta va dentro de una maceta plástica de 15 cm sin fondo enterrada en la jardinera: así sus estolones no invaden. En el otro extremo, una <b>heuchera</b> burdeo da color todo el año y contrasta con el verde de la menta. Abajo tiene la humedad que las dos prefieren.</p>
       <dl class="care">
         <div><dt>Riego</dt><dd>Abundante. Nunca dejes que se seque del todo. En verano, diario.</dd></div>
         <div><dt>Cosecha</dt><dd>Corta tallos completos sobre un par de hojas, desde las 6 semanas. Mientras más cortas, más ramifica.</dd></div>
@@ -289,8 +294,8 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
   <div class="group-h"><h3>Segmento B · Infusiones y temporada</h3><span class="eyebrow">Aromáticas para té y flores comestibles</span></div>
   <div class="planters">
     <article class="planter" id="B1">
-      <div class="ph"><h3>Albahaca ⇄ Violas</h3><span class="id">B1 · fila superior · 61 cm</span></div>
-      <p class="why">La jardinera más soleada del segmento B se usa por temporada. De mediados de octubre a abril, 3 albahacas. Cuando llega el frío la albahaca muere, y en mayo la reemplazas por violas, que florecen todo el invierno en sombra.</p>
+      <div class="ph"><h3>Albahaca ⇄ Violas + Impatiens</h3><span class="id">B1 · arriba izquierda · 61 cm</span></div>
+      <p class="why">Jardinera de temporada. De mediados de octubre a abril, 2 albahacas y un <b>impatiens</b> blanco en un extremo, que ilumina el verde. Cuando llega el frío, albahaca e impatiens mueren, y en mayo la jardinera completa pasa a violas, que florecen todo el invierno en sombra.</p>
       <dl class="care">
         <div><dt>Riego</dt><dd>Albahaca: regular, sin mojar las hojas, de mañana. Violas: moderado.</dd></div>
         <div><dt>Cosecha</dt><dd>Corta la albahaca sobre el segundo par de hojas y quita siempre las espigas florales. Las violas se comen enteras en ensaladas.</dd></div>
@@ -300,8 +305,8 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
     </article>
 
     <article class="planter" id="B2">
-      <div class="ph"><h3>Melisa (toronjil) + Violas</h3><span class="id">B2 · fila media · 61 cm</span></div>
-      <p class="why">La melisa es la hierba de infusión que mejor tolera la sombra y da aroma a limón, que es lo más cercano al cedrón que puede crecer aquí. Sus raíces son menos invasoras que las de la menta. 2 melisas y 2 violas en los extremos.</p>
+      <div class="ph"><h3>Melisa (toronjil) + Violas</h3><span class="id">B2 · arriba derecha · 61 cm</span></div>
+      <p class="why">La melisa es la hierba de infusión que mejor tolera la sombra y da aroma a limón, que es lo más cercano al cedrón que puede crecer aquí. Sus raíces son menos invasoras que las de la menta. 2 melisas al centro y 2 <b>violas</b> en los extremos como decorativa. En verano, cuando las violas decaen, cámbialas por una capuchina de A1 enraizada de un esqueje.</p>
       <dl class="care">
         <div><dt>Riego</dt><dd>Regular, 3 veces por semana en verano.</dd></div>
         <div><dt>Cosecha</dt><dd>Hojas y puntas antes de la flor. Corta a la mitad en verano para un segundo brote.</dd></div>
@@ -311,8 +316,8 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
     </article>
 
     <article class="planter" id="B3">
-      <div class="ph"><h3>Hierbabuena</h3><span class="id">B3 · fila inferior · 61 cm</span></div>
-      <p class="why">Es la menta de uso más chileno: para mote, ensaladas y mojitos. Va sola y abajo por la misma razón que la piperita. Separarlas evita que se crucen y pierdan su aroma característico.</p>
+      <div class="ph"><h3>Hierbabuena + Helecho</h3><span class="id">B3 · abajo, centrada · 61 cm</span></div>
+      <p class="why">Es la menta de uso más chileno: para mote, ensaladas y mojitos. Va abajo y dentro de una maceta enterrada, igual que la piperita. Mantenerlas en segmentos distintos evita que se crucen y pierdan su aroma. Al lado, un <b>helecho</b> espada: pide la misma humedad constante que la hierbabuena y le da volumen al pie del muro.</p>
       <dl class="care">
         <div><dt>Riego</dt><dd>Abundante, sustrato siempre húmedo. En verano, diario.</dd></div>
         <div><dt>Cosecha</dt><dd>Continua desde las 6 semanas. Corta tallos completos.</dd></div>
@@ -325,7 +330,7 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
 
 <section id="decorativas">
   <h2>Plantas decorativas</h2>
-  <p class="prose">Las ornamentales van en el pilar, al centro del muro, para que el color separe visualmente la zona de cocina de la de infusiones. Todas toleran la sombra del muro sur. Se combinan una perenne de follaje, que da estructura todo el año, con una de flor, que da el color de temporada.</p>
+  <p class="prose">Las decorativas están en dos lugares. El pilar, al centro, es 100 % ornamental y separa visualmente la zona de cocina de la de infusiones. En los segmentos A y B, cada jardinera de hierbas lleva una decorativa intercalada, elegida para ser segura cerca de lo que se come: ninguna tóxica va junto a las hierbas. Todas toleran la sombra del muro sur. Se combinan una perenne de follaje, que da estructura todo el año, con una de flor, que da el color de temporada.</p>
   <div class="deco-grid">
     <article class="deco">
       <div><h3>Cinta</h3><span class="sci">Chlorophytum comosum</span></div>
@@ -351,7 +356,7 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
     </article>
     <article class="deco">
       <div><h3>Helecho espada</h3><span class="sci">Nephrolepis exaltata</span></div>
-      <div class="tags"><span class="pill slate">P2</span><span class="pill ok">Perenne</span><span class="pill ok">Segura con mascotas</span></div>
+      <div class="tags"><span class="pill slate">P2 · B3</span><span class="pill ok">Perenne</span><span class="pill ok">Segura con mascotas</span></div>
       <dl class="care">
         <div><dt>Qué aporta</dt><dd>Volumen y textura fina. Es el contrapunto verde a las flores de las begonias.</dd></div>
         <div><dt>Beneficios</dt><dd>Aporta humedad al entorno y es de las plantas más seguras para mascotas.</dd></div>
@@ -373,7 +378,7 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
     </article>
     <article class="deco">
       <div><h3>Heuchera</h3><span class="sci">Heuchera spp.</span></div>
-      <div class="tags"><span class="pill slate">P3</span><span class="pill ok">Perenne</span><span class="pill ok">Segura con mascotas</span></div>
+      <div class="tags"><span class="pill slate">P3 · A3</span><span class="pill ok">Perenne</span><span class="pill ok">Segura con mascotas</span></div>
       <dl class="care">
         <div><dt>Qué aporta</dt><dd>Hojas burdeo, lima o caramelo todo el año. Es la que da color cuando nada florece.</dd></div>
         <div><dt>Beneficios</dt><dd>Perenne rústica, soporta el frío de Santiago sin problemas.</dd></div>
@@ -384,7 +389,7 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
     </article>
     <article class="deco">
       <div><h3>Impatiens</h3><span class="sci">Impatiens walleriana</span></div>
-      <div class="tags"><span class="pill slate">P3</span><span class="pill mid">De temporada</span><span class="pill ok">Segura con mascotas</span></div>
+      <div class="tags"><span class="pill slate">P3 · B1</span><span class="pill mid">De temporada</span><span class="pill ok">Segura con mascotas</span></div>
       <dl class="care">
         <div><dt>Qué aporta</dt><dd>Alegría del hogar: una alfombra de flores de octubre a abril, en la sombra más cerrada.</dd></div>
         <div><dt>Beneficios</dt><dd>Máximo color por muy poco dinero.</dd></div>
@@ -402,6 +407,28 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
         <div><dt>Riego</dt><dd>Cada 2 días en primavera, 1 vez por semana en invierno.</dd></div>
         <div><dt>Cuidados</dt><dd>Corta las flores marchitas para que sigan saliendo nuevas.</dd></div>
         <div><dt>Ojo</dt><dd>Con el calor de diciembre decaen. Ahí vuelve la albahaca.</dd></div>
+      </dl>
+    </article>
+    <article class="deco">
+      <div><h3>Capuchina</h3><span class="sci">Tropaeolum majus</span></div>
+      <div class="tags"><span class="pill slate">A1</span><span class="pill mid">De temporada</span><span class="pill ok">Segura con mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Cascada de hojas redondas y flores naranjas, rojas y amarillas de octubre a mayo.</dd></div>
+        <div><dt>Beneficios</dt><dd>Flores, hojas y semillas comestibles, con sabor picante como el berro. Funciona como planta trampa: los pulgones la prefieren y dejan en paz a las hierbas.</dd></div>
+        <div><dt>Riego</dt><dd>Moderado. Con exceso de agua o abono da mucha hoja y poca flor.</dd></div>
+        <div><dt>Cuidados</dt><dd>Siémbrala directo: 2–3 semillas a 2 cm de profundidad. Guía los tallos hacia afuera para que no tapen el orégano.</dd></div>
+        <div><dt>Ojo</dt><dd>En sombra florece menos que al sol, pero en la fila de arriba rinde bien. Muere con la helada y se resiembra sola.</dd></div>
+      </dl>
+    </article>
+    <article class="deco">
+      <div><h3>Alyssum</h3><span class="sci">Lobularia maritima</span></div>
+      <div class="tags"><span class="pill slate">A2</span><span class="pill ok">Casi todo el año</span><span class="pill ok">Segura con mascotas</span></div>
+      <dl class="care">
+        <div><dt>Qué aporta</dt><dd>Borde bajo de flores blancas diminutas con aroma a miel.</dd></div>
+        <div><dt>Beneficios</dt><dd>Atrae sírfidos y avispas parasitoides, que controlan pulgones de forma natural. Flores comestibles.</dd></div>
+        <div><dt>Riego</dt><dd>Moderado, deja secar la superficie entre riegos.</dd></div>
+        <div><dt>Cuidados</dt><dd>Siembra en línea en el borde delantero. Cuando se vea desgastado, córtalo a la mitad y vuelve a florecer en 2–3 semanas.</dd></div>
+        <div><dt>Ojo</dt><dd>Vive 1 a 2 años. Deja que suelte semilla y se renueva solo.</dd></div>
       </dl>
     </article>
   </div>
@@ -441,6 +468,8 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
         <tr><td>Begonia<span class="sci">Begonia semperflorens</span></td><td>1–2 h</td><td>Día por medio</td><td>1 vez/sem</td><td>Plantín</td><td>Flor oct–may</td></tr>
         <tr><td>Heuchera<span class="sci">Heuchera spp.</span></td><td>Sombra</td><td>Cada 2 días</td><td>Cada 10 días</td><td>Planta</td><td>Color todo el año</td></tr>
         <tr><td>Impatiens<span class="sci">Impatiens walleriana</span></td><td>Sombra</td><td>Diario</td><td>No sobrevive</td><td>Plantín, oct</td><td>Flor oct–abr</td></tr>
+        <tr><td>Capuchina<span class="sci">Tropaeolum majus</span></td><td>3 h</td><td>Cada 2 días</td><td>No sobrevive</td><td>Semilla, oct</td><td>Flor oct–may</td></tr>
+        <tr><td>Alyssum<span class="sci">Lobularia maritima</span></td><td>2–3 h</td><td>Cada 2 días</td><td>1 vez/sem</td><td>Semilla, sep–oct</td><td>Flor en 6–8 semanas</td></tr>
       </tbody>
     </table>
   </div>
@@ -474,15 +503,20 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
         <tr><td>Perlita 5 L<span class="sci">mejora el drenaje</span></td><td><a href="https://www.sodimac.cl/sodimac-cl/b/perlita">Sodimac</a></td><td class="num">1</td><td class="num">~$3.000</td><td class="num">$3.000</td><td><span class="pill mid">estimado</span></td></tr>
         <tr><td>Semilla perejil Anasac 5 g</td><td><a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10537/Semillas-y-Bulbos?f.product.brandName=anasac">Sodimac</a></td><td class="num">1</td><td class="num">$2.690</td><td class="num">$2.690</td><td><span class="pill ok">verificado</span></td></tr>
         <tr><td>Semilla cilantro Anasac 5 g</td><td><a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10537/Semillas-y-Bulbos?f.product.brandName=anasac">Sodimac</a></td><td class="num">1</td><td class="num">$2.590</td><td class="num">$2.590</td><td><span class="pill ok">verificado</span></td></tr>
-        <tr><td>Plantines de hierbas<span class="sci">2 menta, 1 hierbabuena, 2 melisa, 2 orégano, 1 ciboulette</span></td><td>Vivero / Sodimac jardín</td><td class="num">8</td><td class="num">~$2.000</td><td class="num">$16.000</td><td><span class="pill mid">estimado</span></td></tr>
-        <tr><td>Ornamentales de sombra<span class="sci">cintas, hiedra, helecho, begonias, heuchera, impatiens en bandeja</span></td><td>Vivero / feria</td><td class="num">1</td><td class="num">~$15.000</td><td class="num">$15.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Plantines de hierbas<span class="sci">1 menta, 1 hierbabuena, 2 melisa, 1 orégano, 1 ciboulette</span></td><td>Vivero / Sodimac jardín</td><td class="num">6</td><td class="num">~$2.000</td><td class="num">$12.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Ornamentales del pilar<span class="sci">cintas, hiedra, helecho, begonias, heuchera, impatiens en bandeja</span></td><td>Vivero / feria</td><td class="num">1</td><td class="num">~$15.000</td><td class="num">$15.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Decorativas intercaladas<span class="sci">heuchera (A3), impatiens (B1), helecho (B3)</span></td><td>Vivero / feria</td><td class="num">3</td><td class="num">~$3.000</td><td class="num">$9.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Semillas capuchina + alyssum<span class="sci">A1 y A2</span></td><td><a href="https://www.sodimac.cl/sodimac-cl/lista/CATG10537/Semillas-y-Bulbos">Sodimac</a></td><td class="num">2</td><td class="num">~$2.500</td><td class="num">$5.000</td><td><span class="pill mid">estimado</span></td></tr>
+        <tr><td>Maceta plástica 15 cm<span class="sci">para enterrar las mentas</span></td><td>Sodimac / Easy</td><td class="num">2</td><td class="num">~$1.000</td><td class="num">$2.000</td><td><span class="pill mid">estimado</span></td></tr>
       </tbody>
-      <tfoot><tr><td colspan="4">Total fase 1</td><td class="num">$146.960</td><td></td></tr></tfoot>
+      <tfoot><tr><td colspan="4">Total fase 1</td><td class="num">$158.960</td><td></td></tr></tfoot>
     </table>
   </div>
   <div class="callout">
+    <h3>Cómo volver bajo $150.000</h3>
+    <p>Las decorativas intercaladas suben el total unos $9.000 sobre el presupuesto. Para compensar, compra primero la bandeja del pilar y divide su heuchera y su helecho en dos: una mitad queda en el pilar y la otra va a A3 y B3 (ahorras ~$6.000). Para B1 usa un esqueje de impatiens del pilar, que enraíza en agua en una semana (ahorras ~$3.000).</p>
     <h3>Fuera de este total</h3>
-    <p><b>Albahaca</b> (3 plantines, ~$6.000) y <b>violas</b> (~$4.000) se compran en octubre y mayo. <b>Menta en semilla</b> existe (Anasac, sachet de 0,3 g), pero tarda y germina de forma irregular, así que conviene comprarla en plantín. Si ya tienes regadera, no necesitas otra.</p>
+    <p><b>Albahaca</b> (2 plantines, ~$4.000) y <b>violas</b> (~$4.000) se compran en octubre y mayo. <b>Menta en semilla</b> existe (Anasac, sachet de 0,3 g), pero tarda y germina de forma irregular, así que conviene comprarla en plantín. Si ya tienes regadera, no necesitas otra.</p>
   </div>
   <div class="prose">
     <h3>Comparación entre tiendas</h3>
@@ -495,7 +529,7 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
 <section id="riego">
   <h2>Riego: manual ahora, goteo después</h2>
   <div class="prose">
-    <p>Con riego manual, organiza el muro por necesidad de agua. Las jardineras de abajo (A3, B3, P3) y B1 en verano piden agua todos los días. Las de arriba (A1, P1) toleran quedar un día sin riego.</p>
+    <p>Con riego manual, organiza el muro por necesidad de agua. Las jardineras de abajo (A3, B3, P3) y B1 en verano piden agua todos los días. Las de arriba A1 y P1 toleran quedar un día sin riego. A2 necesita el sustrato húmedo por el perejil y el cilantro.</p>
     <p>Para dejar lista la ampliación a goteo desde ya:</p>
   </div>
   <ol class="steps">
@@ -510,7 +544,7 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
 <section id="montaje">
   <h2>Antes de montar</h2>
   <ol class="steps">
-    <li>Distribuye 3 filas separadas unos 55–60 cm en los 2 m de alto. Deja la primera a unos 40 cm del suelo para que no le salpique tierra.</li>
+    <li>En cada segmento, monta las 2 jardineras de arriba a la misma altura, cerca de 1,5 m, con 10–15 cm entre ellas. Centra la de abajo unos 70–80 cm más abajo, sobre los 50 cm del suelo para que no le salpique tierra. Así la cascada de la capuchina y el orégano no tapa la luz de la jardinera inferior. En el pilar, reparte las 3 separadas unos 55 cm.</li>
     <li>Revisa que las jardineras tengan agujeros de drenaje. Si no tienen, hazles 4–5 con taladro. Una capa de 2 cm de gravilla en el fondo evita que se tapen.</li>
     <li>Mezcla el sustrato así: 3 partes de tierra de hoja, 1 de humus y ½ de perlita.</li>
     <li>Una jardinera de 61 cm llena y regada pesa cerca de 20 kg. Usa escuadras reforzadas con tarugo de 8 mm y amarra cada jardinera a su escuadra con alambre o abrazadera plástica.</li>
