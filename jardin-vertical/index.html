@@ -140,6 +140,19 @@ table.t{border-collapse:collapse;width:100%;min-width:760px;font-size:.93rem}
 .deco .tags{display:flex;flex-wrap:wrap;gap:6px}
 .deco .care{grid-template-columns:1fr;gap:8px}
 .pill.slate{background:var(--slate-soft);color:var(--slate)}
+/* Illustrated wall */
+.season-toggle{display:flex;flex-wrap:wrap;gap:8px}
+.season-toggle button{font:600 .9rem var(--body);padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.season-toggle button[aria-pressed="true"]{background:var(--moss);border-color:var(--moss);color:var(--paper)}
+.season-toggle button:focus-visible{outline:2px solid var(--moss);outline-offset:2px}
+.scene{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:#EEF1EC}
+.scene svg{display:block;width:100%;min-width:620px;height:auto}
+.scene-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 20px}
+.scene-legend div{display:grid;gap:4px;align-content:start}
+.scene-legend b{font-family:var(--mono);font-size:.78rem;font-weight:500;color:var(--muted)}
+.scene-legend ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.92rem}
+.scene-legend li{display:flex;align-items:center;gap:6px}
+.scene-legend i{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none;box-shadow:0 0 0 1px var(--line)}
 footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
@@ -184,6 +197,19 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
     </table>
   </div>
   <p class="note">Ese sol llega temprano en la mañana y al final de la tarde, repartido en dos bloques. Para medirlo en tu muro, un día despejado de diciembre anota a qué hora le da y le deja de dar el sol a cada fila. Si la fila superior pasa de 5 horas, la albahaca y el orégano van a rendir bastante mejor.</p>
+</section>
+
+<section id="vista">
+  <h2>Así se verá el muro</h2>
+  <p class="prose">Ilustración a escala del muro de 4 × 2 m con las plantas a 2–3 meses de crecimiento. Cambia de estación para ver cómo rota el muro: en invierno se van la albahaca, la capuchina y los impatiens, entran las violas y las mentas se recogen.</p>
+  <div class="season-toggle" role="group" aria-label="Estación">
+    <button type="button" id="btn-verano" data-season="verano" aria-pressed="true">Primavera – verano</button>
+    <button type="button" id="btn-invierno" data-season="invierno" aria-pressed="false">Otoño – invierno</button>
+  </div>
+  <div class="scene">
+    <svg id="muro-svg" viewBox="0 0 880 462" role="img" aria-label="Ilustración del muro con las nueve jardineras y sus plantas"></svg>
+  </div>
+  <div class="scene-legend" id="muro-legend"></div>
 </section>
 
 <section id="mapa">
@@ -557,3 +583,92 @@ footer{padding-block:48px 0;color:var(--muted);font-size:.88rem;max-width:75ch}
 </footer>
 
 </div>
+<script>
+(function(){
+  var svg=document.getElementById('muro-svg'), legend=document.getElementById('muro-legend');
+  if(!svg) return;
+  var OX=40, OY=40, PH=30; // wall origin, planter height (1 m = 200 px)
+  var f=function(n){return n.toFixed(1)};
+  function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function leaf(cx,cy,rx,ry,rot,fill){return '<ellipse cx="'+f(cx)+'" cy="'+f(cy)+'" rx="'+f(rx)+'" ry="'+f(ry)+'" transform="rotate('+f(rot)+' '+f(cx)+' '+f(cy)+')" fill="'+fill+'"/>'}
+  function dot(cx,cy,r,fill){return '<circle cx="'+f(cx)+'" cy="'+f(cy)+'" r="'+f(r)+'" fill="'+fill+'"/>'}
+  function flower(cx,cy,r,petal,center){var s='';for(var k=0;k<5;k++){var a=k*Math.PI*2/5;s+=dot(cx+Math.cos(a)*r*.55,cy+Math.sin(a)*r*.55,r*.55,petal)}return s+dot(cx,cy,r*.32,center)}
+  function line(x1,y1,x2,y2,st,w){return '<line x1="'+f(x1)+'" y1="'+f(y1)+'" x2="'+f(x2)+'" y2="'+f(y2)+'" stroke="'+st+'" stroke-width="'+w+'" stroke-linecap="round"/>'}
+  function qpath(x0,y0,cx,cy,x1,y1,st,w){return '<path d="M'+f(x0)+' '+f(y0)+' Q'+f(cx)+' '+f(cy)+' '+f(x1)+' '+f(y1)+'" fill="none" stroke="'+st+'" stroke-width="'+w+'" stroke-linecap="round"/>'}
+  function qpt(x0,y0,cx,cy,x1,y1,t){var u=1-t;return[u*u*x0+2*u*t*cx+t*t*x1,u*u*y0+2*u*t*cy+t*t*y1]}
+
+  // Upright bush: stems with paired leaves
+  function bush(o,r){var s='',n=Math.max(3,Math.round(o.w/o.dens));for(var i=0;i<n;i++){var sx=o.x+4+r()*(o.w-8),h=o.h*(.65+r()*.45),lean=(r()-.5)*o.w*.35,tx=sx+lean,ty=o.top-h;s+=line(sx,o.top,tx,ty,o.stem,1.1);var steps=o.steps||5;for(var j=1;j<=steps;j++){var t=j/steps,px=sx+(tx-sx)*t,py=o.top+(ty-o.top)*t,sz=1-t*.35,c=o.colors[(i+j)%o.colors.length];s+=leaf(px-o.rx*.8,py,o.rx*sz,o.ry*sz,-25+(r()-.5)*20,c)+leaf(px+o.rx*.8,py,o.rx*sz,o.ry*sz,25+(r()-.5)*20,c)}s+=leaf(tx,ty-o.ry*.6,o.rx*.7,o.ry*.9,(r()-.5)*30,o.colors[0])}return s}
+  // Low dome of leaves with optional flowers
+  function mound(o,r){var s='',cx=o.x+o.w/2;for(var i=0;i<o.n;i++){var a=Math.PI*(1.02+r()*.96),rad=Math.sqrt(r()),lx=cx+Math.cos(a)*o.w/2*rad,ly=o.top+Math.sin(a)*o.h*rad+2;s+=leaf(lx,ly,o.rx*(.8+r()*.4),o.ry*(.8+r()*.4),r()*180,o.colors[i%o.colors.length])}if(o.fl){for(var k=0;k<o.fl.n;k++){var a2=Math.PI*(1.08+r()*.84),rd=.35+r()*.6;s+=flower(cx+Math.cos(a2)*o.w/2*rd,o.top+Math.sin(a2)*o.h*rd,o.fl.r,o.fl.colors[k%o.fl.colors.length],o.fl.center)}}return s}
+  // Strands hanging over the planter front
+  function trail(o,r){var s='';for(var i=0;i<o.n;i++){var sx=o.x+r()*o.w,ex=sx+(r()-.5)*o.w*.5,ey=o.top+PH+o.len*(.5+r()*.5),cx=sx+(ex-sx)*.3,cy=o.top+PH*.2;s+=qpath(sx,o.top+2,cx,cy,ex,ey,o.stem,1);var m=Math.round(o.len/7);for(var j=1;j<=m;j++){var p=qpt(sx,o.top+2,cx,cy,ex,ey,j/m);s+=leaf(p[0]+(j%2?-3:3),p[1],o.rx,o.ry,(r()-.5)*60,o.colors[j%o.colors.length]);if(o.fl&&r()<o.fl.p)s+=flower(p[0]+(j%2?4:-4),p[1],o.fl.r,o.fl.colors[j%o.fl.colors.length],o.fl.center)}}return s}
+
+  var R={
+    menta:function(x,w,t,r,win){return{back:bush({x:x,w:w,top:t,h:win?18:58,dens:win?9:5,rx:4.6,ry:3,colors:win?['#5F7C58','#6B8763']:['#3F8A4E','#4E9A5B','#367D44'],stem:'#2F5E36',steps:win?2:5},r),front:win?'':trail({x:x,w:w,top:t,n:3,len:16,rx:4,ry:2.8,colors:['#4E9A5B','#3F8A4E'],stem:'#2F5E36'},r)}},
+    hierbabuena:function(x,w,t,r,win){return{back:bush({x:x,w:w,top:t,h:win?17:54,dens:win?9:5,rx:4.8,ry:2.6,colors:win?['#6A8660','#76916B']:['#6BAA5A','#5C9C4C','#7BB868'],stem:'#3A6A34',steps:win?2:5},r),front:win?'':trail({x:x,w:w,top:t,n:3,len:14,rx:4,ry:2.4,colors:['#6BAA5A'],stem:'#3A6A34'},r)}},
+    oregano:function(x,w,t,r,win){return{back:mound({x:x,w:w,top:t,h:win?18:30,n:95,rx:2.4,ry:2,colors:['#6E8B4E','#7F9C5A','#5E7B42']},r),front:trail({x:x,w:w,top:t,n:4,len:win?14:26,rx:2.4,ry:2,colors:['#6E8B4E','#7F9C5A'],stem:'#4F6636',fl:win?null:{p:.25,r:2.2,colors:['#E6C9E8'],center:'#C79BCB'}},r)}},
+    ciboulette:function(x,w,t,r,win){var s='';for(var i=0;i<22;i++){var sx=x+4+r()*(w-8),h=(win?34:64)*(.7+r()*.3),lean=(r()-.5)*10;s+=line(sx,t,sx+lean,t-h,i%2?'#4F7F3A':'#5E9146',1.6);if(!win&&i%4==0)s+=dot(sx+lean,t-h-3,4,'#B07CC6')+dot(sx+lean-1,t-h-4,1.6,'#C99AD9')}return{back:s,front:''}},
+    capuchina:function(x,w,t,r,win){if(win)return{back:'',front:''};var lc=['#7FAE4C','#8DBB57','#6E9F42'];var back='';for(var i=0;i<9;i++){var lx=x+r()*w,ly=t-4-r()*22;back+=line(lx,t,lx,ly,'#6E9F42',1)+dot(lx,ly,6+r()*2,lc[i%3])+dot(lx,ly,1.2,'#C9DDA6')}back+=flower(x+w*.3,t-20,4.5,'#E8742A','#9A3B1C')+flower(x+w*.75,t-14,4.5,'#F2B632','#B5621F');var front='';for(var k=0;k<4;k++){var sx=x+r()*w,ex=sx+(r()-.5)*w*.6,ey=t+PH+26+r()*34,cx=sx+(ex-sx)*.3,cy=t;front+=qpath(sx,t+2,cx,cy,ex,ey,'#6E9F42',1.2);for(var j=1;j<=6;j++){var p=qpt(sx,t+2,cx,cy,ex,ey,j/6);front+=dot(p[0]+(j%2?-5:5),p[1],5.2,lc[j%3])+dot(p[0]+(j%2?-5:5),p[1],1,'#C9DDA6');if(j%2==0)front+=flower(p[0]+(j%2?5:-5),p[1]+2,4.3,j%4?'#E8742A':'#F2B632','#9A3B1C')}}return{back:back,front:front}},
+    perejil:function(x,w,t,r,win){var s='';for(var i=0;i<18;i++){var sx=x+4+r()*(w-8),h=(win?26:44)*(.7+r()*.4),tx=sx+(r()-.5)*12,ty=t-h;s+=line(sx,t,tx,ty,'#3E6E34',1);for(var k=0;k<5;k++)s+=dot(tx+(r()-.5)*9,ty+(r()-.5)*7,2.4,k%2?'#2F6B2E':'#3E7D3A')}return{back:s,front:''}},
+    cilantro:function(x,w,t,r,win){var s='';for(var i=0;i<18;i++){var sx=x+4+r()*(w-8),h=(win?30:48)*(.7+r()*.4),tx=sx+(r()-.5)*14,ty=t-h;s+=line(sx,t,tx,ty,'#5A8E3E',1);for(var k=0;k<4;k++)s+=leaf(tx+(r()-.5)*10,ty+(r()-.5)*8,3.4,2.2,r()*180,k%2?'#6FA84C':'#80B85C')}return{back:s,front:''}},
+    alyssum:function(x,w,t,r,win){var s='';for(var i=0;i<46;i++){var lx=x+2+r()*(w-4),ly=t+2+r()*9;s+=dot(lx,ly,2.4,'#5E8A4A')}for(var k=0;k<60;k++){var fx=x+2+r()*(w-4),fy=t+r()*11;s+=dot(fx,fy,1.8,'#FFFFFF')}return{back:'',front:s}},
+    heuchera:function(x,w,t,r,win){return{back:mound({x:x,w:w,top:t,h:32,n:30,rx:7,ry:5.5,colors:['#7B2D3E','#943A4E','#6A2535']},r),front:''}},
+    albahaca:function(x,w,t,r,win){return{back:bush({x:x,w:w,top:t,h:62,dens:6,rx:7,ry:4.6,colors:['#58A83E','#4B9A34','#69B84C'],stem:'#3B7A2A',steps:4},r),front:''}},
+    melisa:function(x,w,t,r,win){return{back:bush({x:x,w:w,top:t,h:win?26:52,dens:6,rx:5.6,ry:4,colors:['#8DB85A','#7FAA4E','#9BC468'],stem:'#557A33',steps:win?3:4},r),front:''}},
+    impatiens:function(x,w,t,r,win,col){return{back:mound({x:x,w:w,top:t,h:30,n:36,rx:4.8,ry:3.2,colors:['#3F7A3A','#4C8A44'],fl:{n:Math.round(w/5),r:4.2,colors:col||['#E75A8C','#F4F1F2','#F08BAE'],center:'#C2336B'}},r),front:''}},
+    violas:function(x,w,t,r,win){return{back:mound({x:x,w:w,top:t,h:24,n:Math.round(w/1.6),rx:3.6,ry:2.6,colors:['#3E7336','#4C8440'],fl:{n:Math.round(w/6),r:4.2,colors:['#6C3FA0','#F2C230','#8E62C2','#F7F0D8'],center:'#3A2355'}},r),front:''}},
+    helecho:function(x,w,t,r,win){var s='',bx=x+w/2,n=9;for(var i=0;i<n;i++){var dir=(i/(n-1))*2-1,ex=bx+dir*w*.7,ey=t-10+Math.abs(dir)*30,cx=bx+dir*w*.2,cy=t-52+Math.abs(dir)*8;s+=qpath(bx,t,cx,cy,ex,ey,'#3F7A35',1.2);for(var j=2;j<=10;j++){var p=qpt(bx,t,cx,cy,ex,ey,j/10),sz=1.1-j*.05;s+=leaf(p[0],p[1]-2.4,3.4*sz,1.3,dir*40-60,'#4C8B3F')+leaf(p[0],p[1]+2.4,3.4*sz,1.3,dir*40+60,'#5A9A4B')}}return{back:s,front:''}},
+    cinta:function(x,w,t,r,win){var s='',bx=x+w/2,n=15;for(var i=0;i<n;i++){var dir=(i/(n-1))*2-1,ex=bx+dir*w*.6,ey=t+(Math.abs(dir)>.5?18:-6)+r()*8,cx=bx+dir*w*.25,cy=t-36-r()*10;s+=qpath(bx,t,cx,cy,ex,ey,'#4E8F3E',3.2)+qpath(bx,t,cx,cy,ex,ey,'#EAF2DC',1)}var front='';for(var k=0;k<3;k++){var sx=x+w*(.25+k*.25),ey=t+PH+40+r()*25;front+=line(sx,t+4,sx+(r()-.5)*8,ey,'#8FB36B',.9);for(var m=0;m<6;m++){var a=-Math.PI/2+(m-2.5)*.45;front+=qpath(sx,ey,sx+Math.cos(a)*5,ey+Math.sin(a)*6-4,sx+Math.cos(a)*9,ey+Math.sin(a)*4+4,'#5A9A48',1.8)}}return{back:s,front:front}},
+    hiedra:function(x,w,t,r,win){return{back:mound({x:x,w:w,top:t,h:10,n:10,rx:4,ry:3.4,colors:['#3F6E3A','#D9D2A6']},r),front:trail({x:x,w:w,top:t,n:3,len:70,rx:4,ry:3.4,colors:['#3F6E3A','#D9D2A6','#4F7F46'],stem:'#4A5A33'},r)}},
+    begonia:function(x,w,t,r,win){return{back:mound({x:x,w:w,top:t,h:28,n:22,rx:5,ry:3.8,colors:['#4E7F3C','#6B5A3A','#5A8A46'],fl:{n:win?1:Math.round(w/5),r:3.6,colors:['#D83C4A','#E8606C'],center:'#F2D14B'}},r),front:''}}
+  };
+
+  var LEG={menta:['Menta piperita','#3F8A4E'],hierbabuena:['Hierbabuena','#6BAA5A'],oregano:['Orégano','#6E8B4E'],ciboulette:['Ciboulette','#B07CC6'],capuchina:['Capuchina','#E8742A'],perejil:['Perejil','#2F6B2E'],cilantro:['Cilantro','#80B85C'],alyssum:['Alyssum','#FFFFFF'],heuchera:['Heuchera','#7B2D3E'],albahaca:['Albahaca','#58A83E'],melisa:['Melisa','#8DB85A'],impatiens:['Impatiens','#E75A8C'],violas:['Violas','#6C3FA0'],helecho:['Helecho espada','#4C8B3F'],cinta:['Cinta','#4E8F3E'],hiedra:['Hiedra variegada','#D9D2A6'],begonia:['Begonias','#D83C4A']};
+
+  // Positions in wall coordinates (cm × 2): segment A 0–350, pilar 350–450, segment B 450–800
+  var PL=[
+    {id:'A1',x:38,y:100,w:122,v:[['oregano',0,.36],['ciboulette',.64,1],['capuchina',.3,.7]]},
+    {id:'A2',x:190,y:100,w:122,v:[['perejil',0,.5],['cilantro',.5,1],['alyssum',0,1]]},
+    {id:'A3',x:114,y:250,w:122,v:[['menta',0,.62],['heuchera',.64,1]]},
+    {id:'P1',x:354,y:60,w:92,v:[['cinta',.28,1],['hiedra',0,.34]]},
+    {id:'P2',x:354,y:170,w:92,v:[['begonia',0,.3],['helecho',.28,.72],['begonia',.7,1]]},
+    {id:'P3',x:354,y:280,w:92,v:[['heuchera',0,.4],['impatiens',.42,1]],i:[['heuchera',0,.4],['violas',.42,1]]},
+    {id:'B1',x:488,y:100,w:122,v:[['albahaca',0,.7],['impatiens',.7,1,['#F4F1F2','#FFFFFF']]],i:[['violas',0,1]]},
+    {id:'B2',x:640,y:100,w:122,v:[['capuchina',0,.22],['melisa',.22,.78],['capuchina',.78,1]],i:[['violas',0,.22],['melisa',.22,.78],['violas',.78,1]]},
+    {id:'B3',x:564,y:250,w:122,v:[['hierbabuena',0,.6],['helecho',.6,1]]}
+  ];
+
+  function draw(season){
+    var win=season==='invierno',X=function(v){return OX+v},Y=function(v){return OY+v};
+    var s='<defs><linearGradient id="pf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8683F"/><stop offset="1" stop-color="#8E4A2C"/></linearGradient>'+
+      '<pattern id="plaster" width="24" height="24" patternUnits="userSpaceOnUse"><rect width="24" height="24" fill="#E4DFD4"/><circle cx="5" cy="7" r=".8" fill="#D6D0C3"/><circle cx="17" cy="15" r=".7" fill="#D9D3C7"/><circle cx="11" cy="21" r=".6" fill="#D6D0C3"/></pattern></defs>';
+    // wall, pilar, ground
+    s+='<rect x="'+X(0)+'" y="'+Y(0)+'" width="800" height="400" fill="url(#plaster)"/>';
+    s+='<rect x="'+X(350)+'" y="'+Y(-6)+'" width="100" height="406" fill="#CFC8B9"/><rect x="'+X(350)+'" y="'+Y(-6)+'" width="6" height="406" fill="#BDB5A5"/><rect x="'+X(444)+'" y="'+Y(-6)+'" width="6" height="406" fill="#BDB5A5"/>';
+    s+='<rect x="0" y="'+Y(400)+'" width="880" height="14" fill="#A99F8C"/>';
+    // dimensions
+    s+=line(X(0),20,X(800),20,'#6B7268',1)+line(X(0),14,X(0),26,'#6B7268',1)+line(X(800),14,X(800),26,'#6B7268',1)+'<rect x="'+(X(400)-24)+'" y="11" width="48" height="18" fill="#EEF1EC"/><text x="'+X(400)+'" y="25" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#4A5249">4 m</text>';
+    s+=line(20,Y(0),20,Y(400),'#6B7268',1)+line(14,Y(0),26,Y(0),'#6B7268',1)+line(14,Y(400),26,Y(400),'#6B7268',1)+'<text x="16" y="'+Y(200)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#4A5249" transform="rotate(-90 16 '+Y(200)+')">2 m</text>';
+    s+='<text x="'+X(175)+'" y="'+Y(390)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" letter-spacing="1" fill="#8A8374">SEGMENTO A · COCINA</text><text x="'+X(400)+'" y="'+Y(390)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" letter-spacing="1" fill="#8A8374">PILAR</text><text x="'+X(625)+'" y="'+Y(390)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" letter-spacing="1" fill="#8A8374">SEGMENTO B · INFUSIONES</text>';
+    var fronts='',leg='',labels='';
+    PL.forEach(function(p,pi){
+      var list=(win&&p.i)?p.i:p.v,r=rng(pi*97+11),back='',front='',names=[];
+      list.forEach(function(it){var fn=R[it[0]],x=X(p.x)+it[1]*p.w,w=(it[2]-it[1])*p.w,out=fn(x,w,Y(p.y),r,win,it[3]);back+=out.back;front+=out.front;if(!(win&&it[0]==='capuchina')&&names.indexOf(it[0])<0)names.push(it[0])});
+      // bracket, planter, label
+      s+='<g><title>'+p.id+': '+names.map(function(n){return LEG[n][0]}).join(', ')+'</title>'+back+
+        '<rect x="'+(X(p.x)+14)+'" y="'+(Y(p.y)+PH)+'" width="4" height="16" fill="#5A5E5A"/><rect x="'+(X(p.x)+p.w-18)+'" y="'+(Y(p.y)+PH)+'" width="4" height="16" fill="#5A5E5A"/>'+
+        '<rect x="'+X(p.x)+'" y="'+Y(p.y)+'" width="'+p.w+'" height="'+PH+'" rx="2" fill="url(#pf)"/><rect x="'+(X(p.x)-2)+'" y="'+(Y(p.y)-1)+'" width="'+(p.w+4)+'" height="5" rx="1.5" fill="#C27447"/>'+
+        '</g>';
+      fronts+='<g pointer-events="none">'+front+'</g>';
+      labels+='<rect x="'+(X(p.x)+p.w/2-15)+'" y="'+(Y(p.y)+PH-20)+'" width="30" height="16" rx="8" fill="#2A2F2B" opacity=".82"/><text x="'+(X(p.x)+p.w/2)+'" y="'+(Y(p.y)+PH-8)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" font-weight="500" fill="#FFFFFF" pointer-events="none">'+p.id+'</text>';
+      leg+='<div><b>'+p.id+'</b><ul>'+names.map(function(n){return '<li><i style="background:'+LEG[n][1]+'"></i>'+LEG[n][0]+'</li>'}).join('')+'</ul></div>';
+    });
+    svg.innerHTML=s+fronts+labels;
+    legend.innerHTML=leg;
+    document.querySelectorAll('.season-toggle button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.season===season))});
+  }
+  document.querySelectorAll('.season-toggle button').forEach(function(b){b.addEventListener('click',function(){draw(b.dataset.season)})});
+  draw('verano');
+})();
+</script>
